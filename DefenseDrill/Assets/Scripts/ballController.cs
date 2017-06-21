@@ -10,18 +10,20 @@ public class ballController : MonoBehaviour {
     GameObject opp2;
     GameObject zone;
     GameObject rim;
+    GameObject player;
+    playerController player_script;
     Vector3 from;
     public int from_index;
-    Vector3 to;
+    public Vector3 to;
     public int to_index;
     public float move_speed = 1f;
     public float delay_time = 3f;
     public bool pass;
     public bool count_down; //when ball in in collider, start to count down time and wait for player to be in trigger area
-
+    
 	// Use this for initialization
 	void Start () {
-
+        
         opp0 = GameObject.Find("/Basketball Court/halfcourt/opp0");
         opp1 = GameObject.Find("/Basketball Court/halfcourt/opp1");
         opp2 = GameObject.Find("/Basketball Court/halfcourt/opp2");
@@ -42,15 +44,9 @@ public class ballController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        
+        Debug.Log(pass);
         //move towards, distance? 
         transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
-
-        //replace the onTriggerEnter and onTriggerStay to avoid collision problem
-        if(transform.position == to)
-        {
-
-        }
 
     }
   
@@ -81,6 +77,7 @@ public class ballController : MonoBehaviour {
             while (target == from_index);
             to_index = target;
             to = opp_positions[to_index];
+            
         }
         //fail to be in trigger area within certain amount of time, then shoot
         else
@@ -88,7 +85,7 @@ public class ballController : MonoBehaviour {
             to = rim.transform.position;
             to_index = -1;
         }
-
+        pass = false;
     }
 
     
@@ -103,51 +100,12 @@ public class ballController : MonoBehaviour {
             from_index = to_index;
             from = opp_positions[from_index];
             transform.position = to;
-            count_down = true; //start send to_index to camera script 
-            pass = false;
             Invoke("ball_target", delay_time);
+            
             
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (from_index == to_index)
-        {
-            count_down = true;
-        }
-        else
-        {
-            count_down = false;
-        }
-    }
+    
 
-    /*
-    void  OnCollisionEnter(Collision other)
-    {
-       if (other.collider.gameObject.name == "opp" + to_index)
-        {
-            from_index = to_index;
-            from = opp_positions[from_index];
-            transform.position = to;
-            count_down = true; //start send to_index to camera script 
-            pass = false;
-            Invoke("ball_target", delay_time);
-            
-        }
-    }
-   
-
-    private void OnCollisionStay(Collision collision)
-    {
-        if (from_index == to_index)
-        {
-            count_down = true;
-        }
-        else
-        {
-            count_down = false;
-        }
-    }
-    */
 }
