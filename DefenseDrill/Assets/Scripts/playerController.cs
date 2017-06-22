@@ -27,7 +27,7 @@ public class playerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("pre" + pre + "cur" + cur);
+        //Debug.Log("pre" + pre + "cur" + cur);
       
     }
 

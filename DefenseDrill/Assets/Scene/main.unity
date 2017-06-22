@@ -1381,6 +1381,8 @@ GameObject:
   - component: {fileID: 1850703914}
   - component: {fileID: 1850703913}
   - component: {fileID: 1850703912}
+  - component: {fileID: 1850703916}
+  - component: {fileID: 1850703915}
   m_Layer: 0
   m_Name: backboard
   m_TagString: Untagged
@@ -1453,6 +1455,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1850703910}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1850703915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1850703910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94759ab5e13253a4ea52208ecdfd435e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1850703916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1850703910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7559a8d35fdf4dc4291870252cf5b547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1858180125
 Prefab:
   m_ObjectHideFlags: 0

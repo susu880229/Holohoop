@@ -52,7 +52,7 @@ public class ballController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pass);
+        //Debug.Log(pass);
         //move towards, distance? 
         if (StartPlay && !PausePlay) { 
             transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
