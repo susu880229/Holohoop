@@ -24,7 +24,7 @@ public class GazeGestureManager : MonoBehaviour
 			{
 				FocusedObject.SendMessageUpwards("OnSelect");
 			}
-		};
+		};	
 		recognizer.StartCapturingGestures();
 	}
 

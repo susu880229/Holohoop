@@ -22,7 +22,7 @@ public class ballController : MonoBehaviour {
     public bool count_down; //when ball in in collider, start to count down time and wait for player to be in trigger area
     
 	// Use this for initialization
-	void Start () {
+	public void Start () {
         
         opp0 = GameObject.Find("/Basketball Court/halfcourt/opp0");
         opp1 = GameObject.Find("/Basketball Court/halfcourt/opp1");

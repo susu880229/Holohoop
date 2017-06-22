@@ -13,7 +13,7 @@ public class playerController : MonoBehaviour {
     int cur;
     
     // Use this for initialization
-    void Start () {
+    public void Start () {
 
         ball = GameObject.Find("/Basketball Court/halfcourt/ball");
         ball_script = ball.GetComponent<ballController>();
