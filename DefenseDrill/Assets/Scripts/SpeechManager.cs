@@ -30,21 +30,28 @@ public class SpeechManager : MonoBehaviour
         keywords.Add("Start", () =>
         {
             this.BroadcastMessage("OnStart");
+            Debug.Log("Start");
         });
 
         keywords.Add("Pause", () =>
         {
             this.BroadcastMessage("OnPause");
+            Debug.Log("Pause");
+
         });
 
         keywords.Add("Resume", () =>
         {
             this.BroadcastMessage("OnResume");
+            Debug.Log("Resume");
+
         });
 
         keywords.Add("Restart", () =>
         {
             this.BroadcastMessage("OnRestart");
+            Debug.Log("Restart");
+            
         });
 
         // Tell the KeywordRecognizer about our keywords.
@@ -53,6 +60,22 @@ public class SpeechManager : MonoBehaviour
         // Register a callback for the KeywordRecognizer and start recognizing!
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            this.BroadcastMessage("OnStart");
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            this.BroadcastMessage("OnPause");
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            this.BroadcastMessage("OnResume");
+        }
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
