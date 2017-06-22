@@ -20,10 +20,18 @@ public class ballController : MonoBehaviour {
     public float delay_time = 3f;
     public bool pass;
     public bool count_down; //when ball in in collider, start to count down time and wait for player to be in trigger area
+
+    private bool StartPlay;
+    private bool PausePlay;
+    private bool RestartPlay;
     
 	// Use this for initialization
 	public void Start () {
-        
+
+        StartPlay = false;
+        PausePlay = false;
+        RestartPlay = false;
+
         opp0 = GameObject.Find("/Basketball Court/halfcourt/opp0");
         opp1 = GameObject.Find("/Basketball Court/halfcourt/opp1");
         opp2 = GameObject.Find("/Basketball Court/halfcourt/opp2");
@@ -40,14 +48,15 @@ public class ballController : MonoBehaviour {
         pass = false;
         count_down = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
 
+    // Update is called once per frame
+    void Update()
+    {
         Debug.Log(pass);
         //move towards, distance? 
-        transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
-
+        if (StartPlay && !PausePlay) { 
+            transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
+        }
     }
   
 
@@ -100,10 +109,27 @@ public class ballController : MonoBehaviour {
             from_index = to_index;
             from = opp_positions[from_index];
             transform.position = to;
-            Invoke("ball_target", delay_time);
-            
+            if (StartPlay && !PausePlay)
+            {
+                Invoke("ball_target", delay_time);
+            }
             
         }
+    }
+
+    void OnStart()
+    {
+        StartPlay = true;
+    }
+
+    void OnPause()
+    {
+        PausePlay = true;
+    }
+
+    void OnResume()
+    {
+        PausePlay = false;
     }
 
     
