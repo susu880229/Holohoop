@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c68117ffd6d61490bab5d190b91ab993
-timeCreated: 1498101048
+guid: f2e57b81976a33a4dada9ab7f4f6a30f
+timeCreated: 1498154813
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -1903,8 +1903,10 @@ ModelImporter:
     401892: TSM2ProxySwitch_Proxy
     401894: Upper_Body
     401896: zeroWeightJoint
+    4300000: Cube1
     7400000: Take 001
     9500000: //RootNode
+    13700000: Cube1
   materials:
     importMaterials: 1
     materialName: 0
@@ -1915,6 +1917,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -1951,6 +1955,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -1961,7 +1966,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1

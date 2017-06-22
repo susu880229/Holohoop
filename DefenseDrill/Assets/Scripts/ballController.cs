@@ -105,11 +105,25 @@ public class ballController : MonoBehaviour {
             move_speed = pass_speed;    
             if(from_index > target)
             {
-                Anim[from_index].SetBool("passLeft", true);
+                if (Mathf.Abs(from_index - target) > 1f)
+                {
+                    Anim[from_index].SetBool("passLeftLong", true);
+                }
+                else
+                {
+                    Anim[from_index].SetBool("passLeft", true);
+                }
             }
             if(from_index < target)
             {
-                Anim[from_index].SetBool("passRight", true);
+                if (Mathf.Abs(from_index - target) > 1f)
+                {
+                    Anim[from_index].SetBool("passRightLong", true);
+                }
+                else
+                {
+                    Anim[from_index].SetBool("passRight", true);
+                }
             }
             to_index = target;
             to = opp_positions[to_index];
@@ -136,6 +150,8 @@ public class ballController : MonoBehaviour {
         {
             Anim[from_index].SetBool("passLeft", false);
             Anim[from_index].SetBool("passRight", false);
+            Anim[from_index].SetBool("passLeftLong", false);
+            Anim[from_index].SetBool("passRightLong", false);
 
             from_index = to_index;
             from = opp_positions[from_index];
