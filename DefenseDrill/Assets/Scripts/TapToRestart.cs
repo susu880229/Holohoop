@@ -15,12 +15,5 @@ public class TapToRestart : MonoBehaviour {
 
 	}
 
-    void OnRestart()
-    {
-        GameObject b = GameObject.Find("/Basketball Court/halfcourt/ball");
-        GameObject p = GameObject.Find("/Main Camera");
-        Debug.Log("Hello");
-        b.GetComponent<ballController>().Start();
-        p.GetComponent<playerController>().Start();
-    }
+  
 }

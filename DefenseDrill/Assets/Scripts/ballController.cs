@@ -164,6 +164,20 @@ public class ballController : MonoBehaviour {
         Debug.Log("Resume Received " + PausePlay);
     }
 
-    
+    void OnSpeedUp()
+    {
+        this.pass_speed += 0.25f;
+        Debug.Log("Pass speed changed up " + this.pass_speed);
+    }
+
+    void OnSlowDown()
+    {
+        this.pass_speed -= 0.25f;
+        Debug.Log("Pass speed changed down " + this.pass_speed);
+    }
+
+
+
+
 
 }

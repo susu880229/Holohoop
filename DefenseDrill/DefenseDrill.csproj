@@ -329,6 +329,7 @@
     <Compile Include="Assets\Scripts\playerController.cs" />
     <Compile Include="Assets\Scripts\zoneController.cs" />
     <Compile Include="Assets\TapToPlaceParent.cs" />
+    <Compile Include="Assets\VoiceRestart.cs" />
     <Compile Include="Assets\WorldCursor.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -54,6 +54,20 @@ public class SpeechManager : MonoBehaviour
             
         });
 
+        keywords.Add("Speed Up", () =>
+        {
+            this.BroadcastMessage("OnSpeedUp");
+            Debug.Log("Speed Up");
+
+        });
+
+        keywords.Add("Slow Down", () =>
+        {
+            this.BroadcastMessage("OnSpeedDown");
+            Debug.Log("Slow Down");
+
+        });
+
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
@@ -75,6 +89,11 @@ public class SpeechManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             this.BroadcastMessage("OnResume");
+        }
+
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            this.BroadcastMessage("OnSpeedUp");
         }
     }
 
