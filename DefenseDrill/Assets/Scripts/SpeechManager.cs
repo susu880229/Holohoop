@@ -68,6 +68,31 @@ public class SpeechManager : MonoBehaviour
 
         });
 
+        keywords.Add("Scale Down", () =>
+        {
+            this.BroadcastMessage("OnScaleDown");
+            Debug.Log("Scale Down");
+
+        });
+
+        keywords.Add("Scale Up", () =>
+        {
+            this.BroadcastMessage("OnScaleUp");
+            Debug.Log("Scale Up");
+
+        });
+        keywords.Add("Higher Up", () =>
+        {
+            this.BroadcastMessage("OnHigherUp");
+            Debug.Log("Higher Up");
+
+        });
+        keywords.Add("Lower Down", () =>
+        {
+            this.BroadcastMessage("OnLowerDown");
+            Debug.Log("Lower Down");
+
+        });
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
