@@ -12,7 +12,7 @@ public class ballController : MonoBehaviour {
     GameObject player1;
     GameObject player2;
     GameObject zone;
-    GameObject rim;
+    public GameObject rim;
     GameObject player;
     playerController player_script;
     Vector3 from;
@@ -53,7 +53,7 @@ public class ballController : MonoBehaviour {
         Anim[2] = player2.GetComponent<Animator>();
 
         zone = GameObject.Find("/Basketball Court/halfcourt/zone");
-        rim = GameObject.Find("/Basketball Court/backboard/rim");
+//        rim = GameObject.Find("/Basketball Court/backboard/rim");
         opp_positions = new Vector3[3];
         opp_positions[0] = opp0.transform.position;
         opp_positions[1] = opp1.transform.position;

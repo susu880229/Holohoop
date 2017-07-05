@@ -103,7 +103,11 @@ public class SpeechManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			this.BroadcastMessage("OnRestart");
+		}
+		if (Input.GetKeyDown(KeyCode.S))
         {
             this.BroadcastMessage("OnStart");
         }
