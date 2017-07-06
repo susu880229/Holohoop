@@ -6,6 +6,7 @@
 [Bb]uild
 /[Bb]uilds/
 /[Ll]ibrary/
+/[Aa]pp/
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
@@ -44,3 +45,4 @@ ehthumbs.db
 DefenseDrill/Library/ShaderCache/
 DefenseDrill/Library/metadata/
 DefenseDrill/Library
+DefenseDrill/App
