@@ -28,18 +28,19 @@ public class playerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //Debug.Log("pre" + pre + "cur" + cur);
-      
+        //Debug.Log(ball_script.pass);
+        //Debug.Log(ball_script.to_index);
     }
 
-    private void OnTriggerEnter(Collider other)
+    IEnumerator OnTriggerEnter(Collider other)
     {
-        //enter the right zone to defense
         
+        //enter the right zone to defense
         if (other.gameObject.name == "zone")
         {
 
             other.gameObject.GetComponent<Renderer>().material.color = zone_green;
-            
+
         }
 
         //enter the right trigger area to defense the opponents' ball
@@ -48,9 +49,16 @@ public class playerController : MonoBehaviour {
         {
 
             other.gameObject.GetComponent<Renderer>().material.color = zone_green;
+            if (!ball_script.StartPlay)
+            {
+                //yield until user start to play
+                yield return new WaitUntil(() => ball_script.StartPlay == true);
+
+            }
             pre = cur;
             cur = ball_script.to_index;
-            if(pre == cur && ball_script.from_index == ball_script.to_index)
+          
+            if (pre == cur && ball_script.from_index == ball_script.to_index)
             {
                 ball_script.pass = false;
             }
@@ -59,7 +67,9 @@ public class playerController : MonoBehaviour {
                 ball_script.pass = true;
             }
         }
-
+        
+        
+            
     }
 
     //continuous detecting not one time 
