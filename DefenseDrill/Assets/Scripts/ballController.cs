@@ -29,11 +29,11 @@ public class ballController : MonoBehaviour {
     public bool pass;
     
     //start timer varibles
-    public float startTimer = 3f;
+    public float startTimer;
     bool start_count;
 
     //successful drill varibles
-    public float success_time = 16f;
+    public float success_time = 32f;
     float play_time;
     bool play_count;
     
@@ -67,11 +67,13 @@ public class ballController : MonoBehaviour {
 
         player_script = player.GetComponent<playerController>();
 
-        start_timerUI = GameObject.Find("/Timer_UI/Start_Timer");
-        result_UI = GameObject.Find("/Result_UI/Result");
+        startTimer = 3f;
+
+        start_timerUI = GameObject.Find("Main Camera/Timer_UI/Start_Timer");
+        result_UI = GameObject.Find("Main Camera/Result_UI/Result");
         start_timerUI.GetComponent<Text>().text = startTimer.ToString();
-        start_canvas = GameObject.Find("/Timer_UI").GetComponent<CanvasGroup>();
-        result_canvas = GameObject.Find("/Result_UI").GetComponent<CanvasGroup>();
+        start_canvas = GameObject.Find("Main Camera/Timer_UI").GetComponent<CanvasGroup>();
+        result_canvas = GameObject.Find("Main Camera/Result_UI").GetComponent<CanvasGroup>();
         visi_canvas(start_canvas);
         invi_canvas(result_canvas);
 

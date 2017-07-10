@@ -16,13 +16,13 @@ public class AdjustHeight : MonoBehaviour {
 
     void OnHigherUp()
     {
-        this.transform.position += new Vector3(0f, 0.1f, 0f);
+        this.transform.position += new Vector3(0f, 0.3f, 0f);
         Debug.Log(this.name + " " + this.transform.position);
     }
 
     void OnLowerDown()
     {
-        this.transform.position -= new Vector3(0f, 0.1f, 0f);
+        this.transform.position -= new Vector3(0f, 0.3f, 0f);
         Debug.Log(this.name + " " + this.transform.position);
     }
 }
