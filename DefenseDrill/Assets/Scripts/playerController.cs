@@ -30,9 +30,9 @@ public class playerController : MonoBehaviour
         zone_blue = new Color32(75, 139, 148, 96);
         pre = -2;
         cur = -1;
-        player0 = GameObject.Find("player0mat");
-        player1 = GameObject.Find("player1mat");
-        player2 = GameObject.Find("player2mat");
+		player0 = GameObject.Find("/Basketball Court/halfcourt/player0/player0mat");
+		player1 = GameObject.Find("/Basketball Court/halfcourt/player1/player1mat");
+		player2 = GameObject.Find("/Basketball Court/halfcourt/player2/player2mat");
     }
 
     // Update is called once per frame
@@ -69,8 +69,17 @@ public class playerController : MonoBehaviour
 
         if (other.gameObject.name == "trigger" + ball_script.to_index)
         {
+			//changing the trigger to green
+            //other.gameObject.GetComponent<Renderer>().material.color = zone_green;
+			//changign the shirt of the attacker from grey --> green;
+			if (ball_script.to_index == 0) {
+				player0.gameObject.GetComponent<Renderer> ().material.color = zone_green;
+			} else if (ball_script.to_index == 1) {
+				player1.gameObject.GetComponent<Renderer> ().material.color = zone_green;
+			} else if (ball_script.to_index == 2) {
+				player2.gameObject.GetComponent<Renderer> ().material.color = zone_green;
+			}
 
-            other.gameObject.GetComponent<Renderer>().material.color = zone_green;
             if (!ball_script.StartPlay)
             {
                 //yield until user start to play
@@ -147,6 +156,19 @@ public class playerController : MonoBehaviour
             }
 
         }
+		//when player move out of trigger area, change color back to grey
+		if (other.gameObject.name == "trigger0")
+		{
+			player0.GetComponent<Renderer>().material.color = zone_grey;
+		}
+		if (other.gameObject.name == "trigger1")
+		{
+			player1.GetComponent<Renderer>().material.color = zone_grey;
+		}
+		if (other.gameObject.name == "trigger2")
+		{
+			player2.GetComponent<Renderer>().material.color = zone_grey;
+		}
 
 
 
