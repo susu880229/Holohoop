@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ballController : MonoBehaviour {
+public class ballController : MonoBehaviour
+{
 
     Vector3[] opp_positions;
     GameObject opp0;
@@ -27,34 +28,38 @@ public class ballController : MonoBehaviour {
     public float shoot_speed = 6f;
     public float pass_speed = 1f;
     public bool pass;
-    
+
     //start timer varibles
-    public float startTimer;
+    public float startTimer = 4f;
     bool start_count;
 
     //successful drill varibles
-    public float success_time = 32f;
+    public float success_time = 16f;
     float play_time;
     bool play_count;
-    
-    
+
+
     public bool StartPlay;
     public bool PausePlay;
     public bool RestartPlay;
     CanvasGroup start_canvas;
     CanvasGroup result_canvas;
     private Animator[] Anim;
-    
+
 
     // Use this for initialization
-    public void Start () {
-
+    public void Start()
+    {
+        Debug.Log("Start ran");
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
         start_count = false;
+
         play_time = 0f;
         play_count = true;
+
+        pass = false;
 
         opp0 = GameObject.Find("/Basketball Court/halfcourt/opp0");
         opp1 = GameObject.Find("/Basketball Court/halfcourt/opp1");
@@ -67,11 +72,10 @@ public class ballController : MonoBehaviour {
 
         player_script = player.GetComponent<playerController>();
 
-        startTimer = 3f;
-
         start_timerUI = GameObject.Find("Main Camera/Timer_UI/Start_Timer");
         result_UI = GameObject.Find("Main Camera/Result_UI/Result");
-        start_timerUI.GetComponent<Text>().text = startTimer.ToString();
+        //start_timerUI.GetComponent<Text>().text = startTimer.ToString();
+        start_timerUI.GetComponent<Text>().text = "start!";
         start_canvas = GameObject.Find("Main Camera/Timer_UI").GetComponent<CanvasGroup>();
         result_canvas = GameObject.Find("Main Camera/Result_UI").GetComponent<CanvasGroup>();
         visi_canvas(start_canvas);
@@ -83,52 +87,59 @@ public class ballController : MonoBehaviour {
         Anim[2] = player2.GetComponent<Animator>();
 
         zone = GameObject.Find("/Basketball Court/halfcourt/zone");
-//        rim = GameObject.Find("/Basketball Court/backboard/rim");
+        //rim = GameObject.Find("/Basketball Court/backboard/rim");
         opp_positions = new Vector3[3];
         opp_positions[0] = opp0.transform.position;
         opp_positions[1] = opp1.transform.position;
         opp_positions[2] = opp2.transform.position;
         //initiate ball position randomly among the three places
         ball_origion();
+        
         //ignore collision between default layer and zone layer
         Physics.IgnoreLayerCollision(0, 8);
-        pass = false;
-        
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(startTimer);
-     
+        //Debug.Log(startTimer);
+
         transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
 
-        if(play_count && StartPlay)
+        if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
         }
-        
+
         //start timer before playing
         if (start_count)
         {
             if (startTimer > 0)
             {
-
-                start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
+                if (Mathf.Floor(startTimer) == 0)
+                {
+                    start_timerUI.GetComponent<Text>().text = "go!";
+                }
+                else
+                {
+                    start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
+                }
                 startTimer -= 1f * Time.deltaTime;
 
 
             }
             else
             {
-                start_timerUI.GetComponent<Text>().text = "go!";
+
                 StartPlay = true; // start the game
                 start_count = false;
                 invi_canvas(start_canvas); //make the ui invisible
             }
-            
+
         }
+
 
         //detect the ball is on the rim
         checkResult();
@@ -138,11 +149,11 @@ public class ballController : MonoBehaviour {
 
     }
 
-    
+
 
     void ball_origion()
     {
-        
+
         from_index = Random.Range(0, 3);
         from = opp_positions[from_index];
         transform.position = from;
@@ -151,10 +162,16 @@ public class ballController : MonoBehaviour {
 
     }
 
-    
+    /*
+    void ball_origion2()
+    {
+
+    }
+    */
+
     void ball_target()
     {
-        
+
         if (pass)
         {
             int target;
@@ -179,7 +196,7 @@ public class ballController : MonoBehaviour {
                     Anim[from_index].SetBool("passLeft", true);
                 }
             }
-            if(from_index < to_index)
+            if (from_index < to_index)
             {
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
@@ -190,19 +207,17 @@ public class ballController : MonoBehaviour {
                     Anim[from_index].SetBool("passRight", true);
                 }
             }
-            
-           
+
+
 
         }
         //fail to be in trigger area within certain amount of time, then shoot
         else
         {
-            to = rim.transform.position;
-            move_speed = shoot_speed;
-            to_index = -1;
+            shooting();
         }
-        pass = false;
-        
+        //pass = false;
+
     }
 
 
@@ -214,7 +229,7 @@ public class ballController : MonoBehaviour {
     {
         //wait for the start time to redetect the trigger collider
 
-        
+
         if (other.gameObject.name == "opp" + to_index)
         {
             Anim[from_index].SetBool("passLeft", false);
@@ -226,24 +241,34 @@ public class ballController : MonoBehaviour {
             from = opp_positions[from_index];
             transform.position = to;
             //wait while the start count down for moving at the beginning 
-            
-            
-            if(!StartPlay)
+
+
+            if (!StartPlay)
             {
                 //yield until user start to play
                 yield return new WaitUntil(() => StartPlay == true);
 
             }
-            
+
             Invoke("ball_target", delay_time);
-            
+
 
         }
-           
+        //try not to change the pass within ontriggerenter or ontriggerstay   
     }
 
-    
-   
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name == "opp" + from_index)
+        {
+
+            pass = false;
+        }
+    }
+
+
 
     void OnStart()
     {
@@ -277,11 +302,13 @@ public class ballController : MonoBehaviour {
         this.pass_speed -= 0.25f;
         Debug.Log("Pass speed changed down " + this.pass_speed);
     }
-    
+
     void OnRestart()
     {
-        Start();
-        player_script.Start();
+        //Start();
+        //player_script.Start();
+        Reset();
+        player_script.Reset();
     }
 
     void invi_canvas(CanvasGroup canvas)
@@ -300,7 +327,7 @@ public class ballController : MonoBehaviour {
 
     void checkResult()
     {
-        if(play_time >= success_time && to_index != -1)
+        if (play_time >= success_time && to_index != -1)
         {
             visi_canvas(result_canvas);
             result_UI.GetComponent<Text>().text = "training completed!";
@@ -314,5 +341,33 @@ public class ballController : MonoBehaviour {
         }
     }
 
-    
+    private void Reset()
+    {
+        //stop looking for next target for ball when it is restarted
+        CancelInvoke("ball_target");
+        //reenter the same collider if the position didn't change to trigger the movement
+        transform.position = rim.transform.position;
+        ball_origion();
+        StartPlay = false;
+        PausePlay = false;
+        RestartPlay = false;
+        start_count = false;
+        play_time = 0f;
+        play_count = true;
+        pass = false;
+        startTimer = 4f; //redefine the starttimer after restart
+        visi_canvas(start_canvas);
+        start_timerUI.GetComponent<Text>().text = "start!"; //note the order of this line of code has to be afte visulize the timer_ui 
+        invi_canvas(result_canvas);
+
+    }
+
+    void shooting()
+    {
+
+        to = rim.transform.position;
+        move_speed = shoot_speed;
+        to_index = -1;
+    }
+
 }

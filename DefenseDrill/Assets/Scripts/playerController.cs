@@ -173,4 +173,10 @@ public class playerController : MonoBehaviour
 
 
     }
+
+    public void Reset()
+    {
+        pre = -2;
+        cur = -1;
+    }
 }
