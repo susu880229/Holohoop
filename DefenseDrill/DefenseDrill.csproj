@@ -321,19 +321,17 @@
     <Compile Include="Assets\Holograms\Support\Spatial Mapping\SpatialMapping.cs" />
     <Compile Include="Assets\Holograms\Support\Underworld\UnderworldReset.cs" />
     <Compile Include="Assets\Holograms\Support\Underworld\UnderworldSound.cs" />
-    <Compile Include="Assets\ScaleDownPlayers.cs" />
     <Compile Include="Assets\Scripts\AdjustHeight.cs" />
     <Compile Include="Assets\Scripts\GazeGestureManager.cs" />
+    <Compile Include="Assets\Scripts\ScaleDownPlayers.cs" />
     <Compile Include="Assets\Scripts\SpeechManager.cs" />
+    <Compile Include="Assets\Scripts\TapToPlaceParent.cs" />
     <Compile Include="Assets\Scripts\UIcontroller.cs" />
     <Compile Include="Assets\Scripts\World_Cursor.cs" />
     <Compile Include="Assets\Scripts\ballController.cs" />
     <Compile Include="Assets\Scripts\halfcourtController.cs" />
     <Compile Include="Assets\Scripts\playerController.cs" />
     <Compile Include="Assets\Scripts\startController.cs" />
-    <Compile Include="Assets\TapToPlaceParent.cs" />
-    <Compile Include="Assets\WorldCursor.cs" />
-    <Compile Include="Assets\WorldCursorBackUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\HoloToolkit\Input\Shaders\Cursor.shader" />
