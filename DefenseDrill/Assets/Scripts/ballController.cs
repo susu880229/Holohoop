@@ -154,7 +154,9 @@ public class ballController : MonoBehaviour
     void ball_origion()
     {
 
-        from_index = Random.Range(0, 3);
+        //from_index = Random.Range(0, 3);
+		//always start in the middle player	
+		from_index = 1;
         from = opp_positions[from_index];
         transform.position = from;
         to_index = from_index;
