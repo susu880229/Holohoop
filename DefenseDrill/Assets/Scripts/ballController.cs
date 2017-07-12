@@ -280,7 +280,9 @@ public class ballController : MonoBehaviour
     {
         //StartPlay = true;
         //Debug.Log("Start Received " + StartPlay);
-        start_count = true;
+		if(player_script.getIsPlayerInTrigger()){
+			start_count = true;
+		}
     }
 
     void OnPause()
