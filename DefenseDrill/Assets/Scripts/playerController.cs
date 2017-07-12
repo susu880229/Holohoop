@@ -11,7 +11,6 @@ public class playerController : MonoBehaviour
     Color32 zone_green;
     Color32 zone_grey;
     Color32 zone_blue;
-    float stay_time;
     int pre;
     int cur;
     GameObject player0;
@@ -44,26 +43,7 @@ public class playerController : MonoBehaviour
 
     IEnumerator OnTriggerEnter(Collider other)
     {
-        //enter the right zone to defense
-
-        if (other.gameObject.name == "zone")
-        {
-
-            other.gameObject.GetComponent<Renderer>().material.color = zone_green;
-            if (other.gameObject.name == "trigger0")
-            {
-                player0.GetComponent<Renderer>().material.color = zone_green;
-            }
-            if (other.gameObject.name == "trigger1")
-            {
-                player1.GetComponent<Renderer>().material.color = zone_green;
-            }
-            if (other.gameObject.name == "trigger2")
-            {
-                player2.GetComponent<Renderer>().material.color = zone_green;
-            }
-
-        }
+       
 
         //enter the right trigger area to defense the opponents' ball
 
@@ -116,59 +96,24 @@ public class playerController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-
-        if (other.gameObject.name == "zone")
-        {
-
-            other.gameObject.GetComponent<Renderer>().material.color = zone_blue;
-            if (other.gameObject.name == "trigger0")
-            {
-                player0.GetComponent<Renderer>().material.color = zone_grey;
-            }
-            if (other.gameObject.name == "trigger1")
-            {
-                player1.GetComponent<Renderer>().material.color = zone_grey;
-            }
-            if (other.gameObject.name == "trigger2")
-            {
-                player2.GetComponent<Renderer>().material.color = zone_grey;
-            }
-
-        }
-
-        //color feedback when player move out of trigger area
-        if (other.gameObject.GetComponent<Renderer>().material.color == zone_green)
-        {
-
-            other.gameObject.GetComponent<Renderer>().material.color = zone_blue;
-            ball_script.pass = false;
-            if (other.gameObject.name == "trigger0")
-            {
-                player0.GetComponent<Renderer>().material.color = zone_grey;
-            }
-            if (other.gameObject.name == "trigger1")
-            {
-                player1.GetComponent<Renderer>().material.color = zone_grey;
-            }
-            if (other.gameObject.name == "trigger2")
-            {
-                player2.GetComponent<Renderer>().material.color = zone_grey;
-            }
-
-        }
+        
+        
 		//when player move out of trigger area, change color back to grey
 		if (other.gameObject.name == "trigger0")
 		{
 			player0.GetComponent<Renderer>().material.color = zone_grey;
-		}
+            ball_script.pass = false;
+        }
 		if (other.gameObject.name == "trigger1")
 		{
 			player1.GetComponent<Renderer>().material.color = zone_grey;
-		}
+            ball_script.pass = false;
+        }
 		if (other.gameObject.name == "trigger2")
 		{
 			player2.GetComponent<Renderer>().material.color = zone_grey;
-		}
+            ball_script.pass = false;
+        }
 
 
 
