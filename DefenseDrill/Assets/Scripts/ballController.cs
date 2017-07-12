@@ -34,7 +34,7 @@ public class ballController : MonoBehaviour
     bool start_count;
 
     //successful drill varibles
-    public float success_time = 16f;
+    public float success_time = 60f;
     float play_time;
     bool play_count;
 
@@ -50,7 +50,7 @@ public class ballController : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        Debug.Log("Start ran");
+        
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
@@ -106,7 +106,7 @@ public class ballController : MonoBehaviour
     {
         //Debug.Log(startTimer);
 
-        transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
 
         if (play_count && StartPlay)
         {
@@ -140,9 +140,13 @@ public class ballController : MonoBehaviour
 
         }
 
-
-        //detect the ball is on the rim
-        checkResult();
+        //modify!
+        if(StartPlay)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
+            checkResult();
+        }
+        
 
 
 
@@ -153,13 +157,13 @@ public class ballController : MonoBehaviour
 
     void ball_origion()
     {
-
+        
         from_index = Random.Range(0, 3);
         from = opp_positions[from_index];
         transform.position = from;
         to_index = from_index;
         to = from;
-
+        
     }
 
     /*
@@ -340,14 +344,15 @@ public class ballController : MonoBehaviour
             play_count = false;
         }
     }
-
+    //modify!
     private void Reset()
     {
         //stop looking for next target for ball when it is restarted
         CancelInvoke("ball_target");
         //reenter the same collider if the position didn't change to trigger the movement
-        transform.position = rim.transform.position;
-        ball_origion();
+        to = new Vector3(0, 0, 0);
+        transform.position = to;
+        //ball_origion();
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
@@ -359,6 +364,8 @@ public class ballController : MonoBehaviour
         visi_canvas(start_canvas);
         start_timerUI.GetComponent<Text>().text = "start!"; //note the order of this line of code has to be afte visulize the timer_ui 
         invi_canvas(result_canvas);
+        Invoke("ball_origion", 1f); 
+        //ball_origion();
 
     }
 
@@ -369,5 +376,7 @@ public class ballController : MonoBehaviour
         move_speed = shoot_speed;
         to_index = -1;
     }
+
+    
 
 }
