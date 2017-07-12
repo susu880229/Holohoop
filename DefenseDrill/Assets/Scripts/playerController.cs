@@ -52,16 +52,10 @@ public class playerController : MonoBehaviour
         if (other.gameObject.name == "trigger" + ball_script.to_index)
         {
 			bIsPlayerInTrigger = true;
-			//changing the trigger to green
+           
             //other.gameObject.GetComponent<Renderer>().material.color = zone_green;
-			//changign the shirt of the attacker from grey --> green;
-			if (ball_script.to_index == 0) {
-				player0.gameObject.GetComponent<Renderer> ().material.color = zone_green;
-			} else if (ball_script.to_index == 1) {
-				player1.gameObject.GetComponent<Renderer> ().material.color = zone_green;
-			} else if (ball_script.to_index == 2) {
-				player2.gameObject.GetComponent<Renderer> ().material.color = zone_green;
-			}
+            //changign the shirt of the attacker from grey --> green;
+            player_Green();
 
             if (!ball_script.StartPlay)
             {
@@ -88,6 +82,8 @@ public class playerController : MonoBehaviour
     {
         if (other.gameObject.name == "trigger" + ball_script.to_index)
         {
+            //to avoid sometimes it didn't turn green after restart and player stand in the middle
+            player_Green();
 
             if (pre != cur)
             {
@@ -128,7 +124,24 @@ public class playerController : MonoBehaviour
         cur = -1;
     }
 
-	public bool getIsPlayerInTrigger(){
+	public bool getIsPlayerInTrigger()
+    {
 		return bIsPlayerInTrigger;
 	}
+
+    void player_Green()
+    {
+        if (ball_script.to_index == 0)
+        {
+            player0.gameObject.GetComponent<Renderer>().material.color = zone_green;
+        }
+        else if (ball_script.to_index == 1)
+        {
+            player1.gameObject.GetComponent<Renderer>().material.color = zone_green;
+        }
+        else if (ball_script.to_index == 2)
+        {
+            player2.gameObject.GetComponent<Renderer>().material.color = zone_green;
+        }
+    }
 }
