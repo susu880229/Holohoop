@@ -93,6 +93,12 @@ public class SpeechManager : MonoBehaviour
             Debug.Log("Lower Down");
 
         });
+        keywords.Add("Visual Aid", () =>
+        {
+            this.BroadcastMessage("OnVisualAid");
+            Debug.Log("Visual Aid");
+
+        });
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
@@ -123,6 +129,16 @@ public class SpeechManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             this.BroadcastMessage("OnSpeedUp");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            this.BroadcastMessage("OnHigherUp");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            this.BroadcastMessage("OnLowerDown");
         }
     }
 

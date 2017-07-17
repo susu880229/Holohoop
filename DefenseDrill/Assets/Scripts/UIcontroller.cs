@@ -22,7 +22,7 @@ public class UIcontroller : MonoBehaviour {
         {
             // If the raycast hit a hologram...
             
-            transform.position = hitInfo.point;
+            transform.position = new Vector3 (Camera.main.transform.position.x, Camera.main.transform.position.y, Camera.main.transform.position.z - 3f);
 
             // Rotate the cursor to hug the surface of the hologram.
             Vector3 newRot = new Vector3(Camera.main.transform.eulerAngles.x, Camera.main.transform.eulerAngles.y, 0);

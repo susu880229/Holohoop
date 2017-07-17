@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefenseDrill", "DefenseDrill.csproj", "{CAE6ABFE-E29A-7A48-1E71-E235982F1FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DefenseDrill.Editor", "DefenseDrill.Editor.csproj", "{893C885C-5F26-A102-B3A9-61EA0D1B298C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{CAE6ABFE-E29A-7A48-1E71-E235982F1FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAE6ABFE-E29A-7A48-1E71-E235982F1FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAE6ABFE-E29A-7A48-1E71-E235982F1FFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{893C885C-5F26-A102-B3A9-61EA0D1B298C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{893C885C-5F26-A102-B3A9-61EA0D1B298C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{893C885C-5F26-A102-B3A9-61EA0D1B298C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{893C885C-5F26-A102-B3A9-61EA0D1B298C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
