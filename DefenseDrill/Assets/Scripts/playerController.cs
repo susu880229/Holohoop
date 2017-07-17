@@ -60,7 +60,6 @@ public class playerController : MonoBehaviour
 			bIsPlayerInTrigger = true;
            
             //other.gameObject.GetComponent<Renderer>().material.color = zone_green;
-
             //changign the shirt of the attacker from grey --> green;
             player_Green();
 
