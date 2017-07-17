@@ -130,6 +130,16 @@ public class SpeechManager : MonoBehaviour
         {
             this.BroadcastMessage("OnSpeedUp");
         }
+
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            this.BroadcastMessage("OnHigherUp");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Minus))
+        {
+            this.BroadcastMessage("OnLowerDown");
+        }
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)

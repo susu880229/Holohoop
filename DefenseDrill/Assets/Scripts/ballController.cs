@@ -45,6 +45,8 @@ public class ballController : MonoBehaviour
     CanvasGroup start_canvas;
     CanvasGroup result_canvas;
     private Animator[] Anim;
+	AudioSource[] allSounds;
+	bool bCheckResultRun; 
 
 
     // Use this for initialization
@@ -75,10 +77,11 @@ public class ballController : MonoBehaviour
         start_timerUI = GameObject.Find("Main Camera/Timer_UI/Start_Timer");
         result_UI = GameObject.Find("Main Camera/Result_UI/Result");
         //start_timerUI.GetComponent<Text>().text = startTimer.ToString();
+        
         start_timerUI.GetComponent<Text>().text = "start!";
         start_canvas = GameObject.Find("Main Camera/Timer_UI").GetComponent<CanvasGroup>();
         result_canvas = GameObject.Find("Main Camera/Result_UI").GetComponent<CanvasGroup>();
-        visi_canvas(start_canvas);
+        //visi_canvas(start_canvas);
         invi_canvas(result_canvas);
 
         Anim = new Animator[3];
@@ -97,7 +100,8 @@ public class ballController : MonoBehaviour
         
         //ignore collision between default layer and zone layer
         Physics.IgnoreLayerCollision(0, 8);
-
+		allSounds = GetComponents<AudioSource> ();
+		bCheckResultRun = false;
 
     }
 
@@ -124,7 +128,8 @@ public class ballController : MonoBehaviour
                 }
                 else
                 {
-                    start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
+					start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
+
                 }
                 startTimer -= 1f * Time.deltaTime;
 
@@ -144,12 +149,8 @@ public class ballController : MonoBehaviour
         if(StartPlay)
         {
             transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
-            checkResult();
+			checkResult();
         }
-        
-
-
-
 
     }
 
@@ -282,6 +283,7 @@ public class ballController : MonoBehaviour
         //Debug.Log("Start Received " + StartPlay);
 		if(player_script.getIsPlayerInTrigger()){
 			start_count = true;
+			allSounds[0].Play ();
 		}
     }
 
@@ -334,17 +336,25 @@ public class ballController : MonoBehaviour
     }
 
     void checkResult()
-    {
+    {	
         if (play_time >= success_time && to_index != -1)
         {
             visi_canvas(result_canvas);
             result_UI.GetComponent<Text>().text = "training completed!";
+			if (!bCheckResultRun) {
+				allSounds [2].Play ();
+				bCheckResultRun = true;
+			}
             play_count = false;
         }
         else if (play_time <= success_time && to_index == -1)
         {
             visi_canvas(result_canvas);
             result_UI.GetComponent<Text>().text = "training failed!";
+			if (!bCheckResultRun) {
+				allSounds [1].Play ();
+				bCheckResultRun = true;
+			}
             play_count = false;
         }
     }
@@ -365,10 +375,11 @@ public class ballController : MonoBehaviour
         play_count = true;
         pass = false;
         startTimer = 4f; //redefine the starttimer after restart
-        visi_canvas(start_canvas);
+        //visi_canvas(start_canvas);
         start_timerUI.GetComponent<Text>().text = "start!"; //note the order of this line of code has to be afte visulize the timer_ui 
         invi_canvas(result_canvas);
         Invoke("ball_origion", 1f); 
+		bCheckResultRun = false;
         //ball_origion();
 
     }

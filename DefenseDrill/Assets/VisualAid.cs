@@ -5,7 +5,6 @@ using UnityEngine;
 public class VisualAid : MonoBehaviour {
     private bool va = false;
     private bool tempVA;
-    private int vac = 0;
 
     private Renderer[] rd;
 

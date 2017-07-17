@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class playerController : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class playerController : MonoBehaviour
     GameObject player0;
     GameObject player1;
     GameObject player2;
+    GameObject TriggerPointer;
 	bool bIsPlayerInTrigger;
+    Renderer TriggerRenderer;
+    public Canvas TimerUI;
 
     // Use this for initialization
     public void Start()
@@ -33,6 +37,8 @@ public class playerController : MonoBehaviour
 		player0 = GameObject.Find("/Basketball Court/halfcourt/player0/player0mat");
 		player1 = GameObject.Find("/Basketball Court/halfcourt/player1/player1mat");
 		player2 = GameObject.Find("/Basketball Court/halfcourt/player2/player2mat");
+        TriggerPointer = GameObject.Find("/Basketball Court/TriggerPointer/default");   
+        TriggerRenderer = TriggerPointer.GetComponent<Renderer>();
 		bIsPlayerInTrigger = false;
     }
 
@@ -59,6 +65,11 @@ public class playerController : MonoBehaviour
 				player0.gameObject.GetComponent<Renderer> ().material.color = zone_green;
 			} else if (ball_script.to_index == 1) {
 				player1.gameObject.GetComponent<Renderer> ().material.color = zone_green;
+                if (!ball_script.StartPlay)
+                {
+                    TimerUI.GetComponent<CanvasGroup>().alpha = 1f;
+                    TriggerRenderer.enabled = false;
+                }
 			} else if (ball_script.to_index == 2) {
 				player2.gameObject.GetComponent<Renderer> ().material.color = zone_green;
 			}
@@ -69,6 +80,8 @@ public class playerController : MonoBehaviour
                 yield return new WaitUntil(() => ball_script.StartPlay == true);
 
             }
+
+
             pre = cur;
             cur = ball_script.to_index;
             if (pre == cur && ball_script.from_index == ball_script.to_index)
@@ -109,7 +122,13 @@ public class playerController : MonoBehaviour
         }
 		if (other.gameObject.name == "trigger1")
 		{
-			player1.GetComponent<Renderer>().material.color = zone_grey;
+            if (!ball_script.StartPlay)
+            {
+                //TimerUI.GetComponent<Text>().text = "";
+                TimerUI.GetComponent<CanvasGroup>().alpha = 0f;
+                TriggerRenderer.enabled = true;
+            }
+            player1.GetComponent<Renderer>().material.color = zone_grey;
             ball_script.pass = false;
         }
 		if (other.gameObject.name == "trigger2")
