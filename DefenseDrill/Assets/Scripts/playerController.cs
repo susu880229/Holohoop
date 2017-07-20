@@ -18,7 +18,7 @@ public class playerController : MonoBehaviour
     GameObject player1;
     GameObject player2;
     GameObject TriggerPointer;
-	bool bIsPlayerInTrigger;
+	public bool bIsPlayerInTrigger;
     Renderer TriggerRenderer;
     public Canvas TimerUI;
 
@@ -49,7 +49,7 @@ public class playerController : MonoBehaviour
 
     }
 
-    IEnumerator OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
        
 
@@ -57,23 +57,15 @@ public class playerController : MonoBehaviour
 
         if (other.gameObject.name == "trigger" + ball_script.to_index)
         {
-			bIsPlayerInTrigger = true;
-           
+			
+            //bIsPlayerInTrigger = true;
             //other.gameObject.GetComponent<Renderer>().material.color = zone_green;
             //changign the shirt of the attacker from grey --> green;
             player_Green();
-
-            if (!ball_script.StartPlay)
-            {
-                //yield until user start to play
-                yield return new WaitUntil(() => ball_script.StartPlay == true);
-
-            }
-
-
             pre = cur;
             cur = ball_script.to_index;
-            if (pre == cur && ball_script.from_index == ball_script.to_index)
+            //imporve pass successful rate (shoot only when the ball is already on the center of trigger area)
+            if(pre == cur && ball.transform.position == ball_script.opp_positions[ball_script.to_index])
             {
                 ball_script.pass = false;
             }
@@ -118,6 +110,7 @@ public class playerController : MonoBehaviour
                 //TimerUI.GetComponent<Text>().text = "";
                 TimerUI.GetComponent<CanvasGroup>().alpha = 0f;
                 TriggerRenderer.enabled = true;
+                Reset(); //reset the pre and cur when staryPlay = false
             }
             player1.GetComponent<Renderer>().material.color = zone_grey;
             ball_script.pass = false;
@@ -136,6 +129,7 @@ public class playerController : MonoBehaviour
     {
         pre = -2;
         cur = -1;
+        TriggerRenderer.enabled = true; //the triggerPointer still there after restart
     }
 
 	public bool getIsPlayerInTrigger()
@@ -152,9 +146,15 @@ public class playerController : MonoBehaviour
         else if (ball_script.to_index == 1)
         {
             player1.gameObject.GetComponent<Renderer>().material.color = zone_green;
+            bIsPlayerInTrigger = true;
             if (!ball_script.StartPlay)
                 {
                     TimerUI.GetComponent<CanvasGroup>().alpha = 1f;
+                    if(!ball_script.start_count)
+                    {
+                      TimerUI.transform.Find("Start_Timer").GetComponent<Text>().text = "start!";
+                    }
+                
                     TriggerRenderer.enabled = false;
                 }
         }
