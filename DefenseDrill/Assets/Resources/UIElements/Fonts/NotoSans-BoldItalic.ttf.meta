@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: bae872833050d194fb9b14a33b1dd1dc
+timeCreated: 1500331050
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Noto Sans
+  fontNames:
+  - Noto Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4e7025eaf0b8a9b4182dba0543c6f6ac, type: 3}
+  - {fileID: 12800000, guid: 3bc1fffb72435c84398a85fb41c6b7c8, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
