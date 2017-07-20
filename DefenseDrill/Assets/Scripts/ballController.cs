@@ -37,7 +37,7 @@ public class ballController : MonoBehaviour
     public bool start_count;
 
     //successful drill varibles
-    public float success_time = 60f;
+    public float success_time = 45f;
     float play_time;
     bool play_count;
 
@@ -161,7 +161,21 @@ public class ballController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
 			checkResult();
         }
+		//Tell the player how much time is left
+		if(Mathf.Floor(play_time) == (success_time- 40f)){
+			allSounds [6].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 30f)){
+			allSounds [5].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 20f)){
+			allSounds [4].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 10f)){
+			allSounds [3].Play ();
+		}
 
+		//Debug.Log (Mathf.Floor(play_time));
     }
 
 
@@ -299,6 +313,8 @@ public class ballController : MonoBehaviour
 			start_count = true;
 			allSounds[0].Play ();
 		}
+		player_script.walkThruClips [0].Stop();
+		player_script.setExitWalkThru (true);
     }
 
     void OnPause()
@@ -332,7 +348,14 @@ public class ballController : MonoBehaviour
         Reset();
         player_script.Reset();
     }
+	//"say repeat" for repeating the voice waklthrough, once the walkthru is exited, CAN NOT repeat again
+	void OnRepeat()
+	{
+		if (!player_script.getExitWalkThru ()) {
+			player_script.playWalkthrough ();
+		}
 
+	}		
     void invi_canvas(CanvasGroup canvas)
     {
         canvas.alpha = 0f;
@@ -406,6 +429,10 @@ public class ballController : MonoBehaviour
         move_speed = shoot_speed;
         to_index = -1;
     }
+
+	public bool GetStartCount(){
+		return start_count;
+	}
 
     
 
