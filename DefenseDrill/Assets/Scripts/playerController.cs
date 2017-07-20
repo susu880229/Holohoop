@@ -53,8 +53,7 @@ public class playerController : MonoBehaviour
         //Debug.Log("pre" + pre + "cur" + cur);
     }
 
-
-
+   
 	public void playWalkthrough(){
 			Debug.Log ("Play walk through");
 			//audio clip contains Intro walkthrough (10 secs to look around) + 15s blank + Repeat msg + 15s blank
