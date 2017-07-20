@@ -60,7 +60,7 @@ public class playerController : MonoBehaviour
 			walkThruClips[0].Play();
 	}
 
-    IEnumerator OnTriggerEnter(Collider other)
+	private void OnTriggerEnter(Collider other)
     {
        
 

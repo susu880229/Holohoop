@@ -175,7 +175,7 @@ public class ballController : MonoBehaviour
 			allSounds [3].Play ();
 		}
 
-		Debug.Log (Mathf.Floor(play_time));
+		//Debug.Log (Mathf.Floor(play_time));
     }
 
 
