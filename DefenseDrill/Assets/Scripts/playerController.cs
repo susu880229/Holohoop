@@ -19,8 +19,10 @@ public class playerController : MonoBehaviour
     GameObject player2;
     GameObject TriggerPointer;
 	public bool bIsPlayerInTrigger;
+	bool bExitWalkThru;
     Renderer TriggerRenderer;
     public Canvas TimerUI;
+	public AudioSource[] walkThruClips;
 
     // Use this for initialization
     public void Start()
@@ -40,16 +42,26 @@ public class playerController : MonoBehaviour
         TriggerPointer = GameObject.Find("/Basketball Court/TriggerPointer/default");   
         TriggerRenderer = TriggerPointer.GetComponent<Renderer>();
 		bIsPlayerInTrigger = false;
-    }
+		bExitWalkThru = false;
+		walkThruClips = GetComponents<AudioSource> ();
+		playWalkthrough();
+		    }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log("pre" + pre + "cur" + cur);
-
     }
 
-    private void OnTriggerEnter(Collider other)
+
+
+	public void playWalkthrough(){
+			Debug.Log ("Play walk through");
+			//audio clip contains Intro walkthrough (10 secs to look around) + 15s blank + Repeat msg + 15s blank
+			walkThruClips[0].Play();
+	}
+
+    IEnumerator OnTriggerEnter(Collider other)
     {
        
 
@@ -135,6 +147,13 @@ public class playerController : MonoBehaviour
 	public bool getIsPlayerInTrigger()
     {
 		return bIsPlayerInTrigger;
+	}
+
+	public bool getExitWalkThru(){
+		return bExitWalkThru;
+	}
+	public void setExitWalkThru(bool extiWalkThru){
+		bExitWalkThru = extiWalkThru;
 	}
 
     void player_Green()
