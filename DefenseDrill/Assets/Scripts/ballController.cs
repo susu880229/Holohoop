@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ballController : MonoBehaviour
 {
 
-    Vector3[] opp_positions;
+    public Vector3[] opp_positions;
     GameObject opp0;
     GameObject opp1;
     GameObject opp2;
@@ -31,7 +31,7 @@ public class ballController : MonoBehaviour
 
     //start timer varibles
     public float startTimer = 4f;
-    bool start_count;
+    public bool start_count;
 
     //successful drill varibles
     public float success_time = 60f;
@@ -46,8 +46,8 @@ public class ballController : MonoBehaviour
     CanvasGroup result_canvas;
     private Animator[] Anim;
 	AudioSource[] allSounds;
-	bool bCheckResultRun; 
-
+	bool bCheckResultRun;
+    bool first_trigger;
 
     // Use this for initialization
     public void Start()
@@ -57,7 +57,7 @@ public class ballController : MonoBehaviour
         PausePlay = false;
         RestartPlay = false;
         start_count = false;
-
+        first_trigger = true;
         play_time = 0f;
         play_count = true;
 
@@ -110,8 +110,6 @@ public class ballController : MonoBehaviour
     {
         //Debug.Log(startTimer);
 
-        //transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
-
         if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
@@ -145,7 +143,7 @@ public class ballController : MonoBehaviour
 
         }
 
-        //modify!
+        
         if(StartPlay)
         {
             transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
@@ -169,12 +167,7 @@ public class ballController : MonoBehaviour
         
     }
 
-    /*
-    void ball_origion2()
-    {
-
-    }
-    */
+   
 
     void ball_target()
     {
@@ -249,15 +242,24 @@ public class ballController : MonoBehaviour
             transform.position = to;
             //wait while the start count down for moving at the beginning 
 
-
+            
             if (!StartPlay)
             {
                 //yield until user start to play
                 yield return new WaitUntil(() => StartPlay == true);
-
+                
             }
-
-            Invoke("ball_target", delay_time);
+            //make sure there is no delay at the first defense trigger zone
+            if(first_trigger)
+            {
+                ball_target();
+                first_trigger = false;
+            }
+            else
+            {
+                Invoke("ball_target", delay_time);
+            }
+            
 
 
         }
@@ -315,8 +317,6 @@ public class ballController : MonoBehaviour
 
     void OnRestart()
     {
-        //Start();
-        //player_script.Start();
         Reset();
         player_script.Reset();
     }
@@ -366,7 +366,6 @@ public class ballController : MonoBehaviour
         //reenter the same collider if the position didn't change to trigger the movement
         to = new Vector3(0, 0, 0);
         transform.position = to;
-        //ball_origion();
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
@@ -375,12 +374,11 @@ public class ballController : MonoBehaviour
         play_count = true;
         pass = false;
         startTimer = 4f; //redefine the starttimer after restart
-        //visi_canvas(start_canvas);
-        start_timerUI.GetComponent<Text>().text = "start!"; //note the order of this line of code has to be afte visulize the timer_ui 
         invi_canvas(result_canvas);
         Invoke("ball_origion", 1f); 
 		bCheckResultRun = false;
-        //ball_origion();
+        first_trigger = true;
+        player_script.bIsPlayerInTrigger = false;
 
     }
 
