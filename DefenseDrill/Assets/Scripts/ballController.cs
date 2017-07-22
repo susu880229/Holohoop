@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ballController : MonoBehaviour
 {
 
-    Vector3[] opp_positions;
+    public Vector3[] opp_positions;
     GameObject opp0;
     GameObject opp1;
     GameObject opp2;
@@ -18,6 +18,9 @@ public class ballController : MonoBehaviour
     GameObject player;
     GameObject start_timerUI;
     GameObject result_UI;
+    //Added UI images
+    GameObject result_UI_image;
+    //Adding Ended
     playerController player_script;
     Vector3 from;
     public int from_index;
@@ -31,10 +34,10 @@ public class ballController : MonoBehaviour
 
     //start timer varibles
     public float startTimer = 4f;
-    bool start_count;
+    public bool start_count;
 
     //successful drill varibles
-    public float success_time = 60f;
+    public float success_time = 45f;
     float play_time;
     bool play_count;
 
@@ -46,8 +49,11 @@ public class ballController : MonoBehaviour
     CanvasGroup result_canvas;
     private Animator[] Anim;
 	AudioSource[] allSounds;
-	bool bCheckResultRun; 
+	bool bCheckResultRun;
+    bool first_trigger;
 
+    public Sprite SUCCESS, FAIL;
+    
 
     // Use this for initialization
     public void Start()
@@ -57,7 +63,7 @@ public class ballController : MonoBehaviour
         PausePlay = false;
         RestartPlay = false;
         start_count = false;
-
+        first_trigger = true;
         play_time = 0f;
         play_count = true;
 
@@ -76,9 +82,10 @@ public class ballController : MonoBehaviour
 
         start_timerUI = GameObject.Find("Main Camera/Timer_UI/Start_Timer");
         result_UI = GameObject.Find("Main Camera/Result_UI/Result");
+        result_UI_image = GameObject.Find("Main Camera/Result_UI/ResultIcon");
         //start_timerUI.GetComponent<Text>().text = startTimer.ToString();
-        
-        start_timerUI.GetComponent<Text>().text = "start!";
+        start_timerUI.GetComponent<Text>().fontSize = 12;
+        start_timerUI.GetComponent<Text>().text = "START";
         start_canvas = GameObject.Find("Main Camera/Timer_UI").GetComponent<CanvasGroup>();
         result_canvas = GameObject.Find("Main Camera/Result_UI").GetComponent<CanvasGroup>();
         //visi_canvas(start_canvas);
@@ -103,14 +110,15 @@ public class ballController : MonoBehaviour
 		allSounds = GetComponents<AudioSource> ();
 		bCheckResultRun = false;
 
+        //SUCCESS = Resources.Load<Sprite>("Resources/UIElements/UI_Checkmark.png") as Sprite;
+        //FAIL = Resources.Load<Sprite>("Resources/UIElement/UI_X.png") as Sprite;
+
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(startTimer);
-
-        //transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
 
         if (play_count && StartPlay)
         {
@@ -124,11 +132,13 @@ public class ballController : MonoBehaviour
             {
                 if (Mathf.Floor(startTimer) == 0)
                 {
-                    start_timerUI.GetComponent<Text>().text = "go!";
+                    start_timerUI.GetComponent<Text>().fontSize = 24;
+                    start_timerUI.GetComponent<Text>().text = "GO";
                 }
                 else
                 {
-					start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
+                    start_timerUI.GetComponent<Text>().fontSize = 24;
+                    start_timerUI.GetComponent<Text>().text = Mathf.Floor(startTimer).ToString();
 
                 }
                 startTimer -= 1f * Time.deltaTime;
@@ -145,13 +155,27 @@ public class ballController : MonoBehaviour
 
         }
 
-        //modify!
+        
         if(StartPlay)
         {
             transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
 			checkResult();
         }
+		//Tell the player how much time is left
+		if(Mathf.Floor(play_time) == (success_time- 40f)){
+			allSounds [6].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 30f)){
+			allSounds [5].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 20f)){
+			allSounds [4].Play ();
+		}
+		if(Mathf.Floor(play_time) == (success_time- 10f)){
+			allSounds [3].Play ();
+		}
 
+		//Debug.Log (Mathf.Floor(play_time));
     }
 
 
@@ -169,12 +193,7 @@ public class ballController : MonoBehaviour
         
     }
 
-    /*
-    void ball_origion2()
-    {
-
-    }
-    */
+   
 
     void ball_target()
     {
@@ -249,15 +268,24 @@ public class ballController : MonoBehaviour
             transform.position = to;
             //wait while the start count down for moving at the beginning 
 
-
+            
             if (!StartPlay)
             {
                 //yield until user start to play
                 yield return new WaitUntil(() => StartPlay == true);
-
+                
             }
-
-            Invoke("ball_target", delay_time);
+            //make sure there is no delay at the first defense trigger zone
+            if(first_trigger)
+            {
+                ball_target();
+                first_trigger = false;
+            }
+            else
+            {
+                Invoke("ball_target", delay_time);
+            }
+            
 
 
         }
@@ -285,6 +313,8 @@ public class ballController : MonoBehaviour
 			start_count = true;
 			allSounds[0].Play ();
 		}
+		player_script.walkThruClips [0].Stop();
+		player_script.setExitWalkThru (true);
     }
 
     void OnPause()
@@ -315,12 +345,17 @@ public class ballController : MonoBehaviour
 
     void OnRestart()
     {
-        //Start();
-        //player_script.Start();
         Reset();
         player_script.Reset();
     }
+	//"say repeat" for repeating the voice waklthrough, once the walkthru is exited, CAN NOT repeat again
+	void OnRepeat()
+	{
+		if (!player_script.getExitWalkThru ()) {
+			player_script.playWalkthrough ();
+		}
 
+	}		
     void invi_canvas(CanvasGroup canvas)
     {
         canvas.alpha = 0f;
@@ -340,7 +375,8 @@ public class ballController : MonoBehaviour
         if (play_time >= success_time && to_index != -1)
         {
             visi_canvas(result_canvas);
-            result_UI.GetComponent<Text>().text = "training completed!";
+            result_UI.GetComponent<Text>().text = "SUCCESS";
+            result_UI_image.GetComponent<Image>().sprite = SUCCESS;
 			if (!bCheckResultRun) {
 				allSounds [2].Play ();
 				bCheckResultRun = true;
@@ -350,8 +386,9 @@ public class ballController : MonoBehaviour
         else if (play_time <= success_time && to_index == -1)
         {
             visi_canvas(result_canvas);
-            result_UI.GetComponent<Text>().text = "training failed!";
-			if (!bCheckResultRun) {
+            result_UI.GetComponent<Text>().text = "FAIL";
+            result_UI_image.GetComponent<Image>().sprite = FAIL;
+            if (!bCheckResultRun) {
 				allSounds [1].Play ();
 				bCheckResultRun = true;
 			}
@@ -366,7 +403,6 @@ public class ballController : MonoBehaviour
         //reenter the same collider if the position didn't change to trigger the movement
         to = new Vector3(0, 0, 0);
         transform.position = to;
-        //ball_origion();
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
@@ -376,11 +412,13 @@ public class ballController : MonoBehaviour
         pass = false;
         startTimer = 4f; //redefine the starttimer after restart
         //visi_canvas(start_canvas);
-        start_timerUI.GetComponent<Text>().text = "start!"; //note the order of this line of code has to be afte visulize the timer_ui 
+        start_timerUI.GetComponent<Text>().fontSize = 12;
+        start_timerUI.GetComponent<Text>().text = "START"; //note the order of this line of code has to be afte visulize the timer_ui 
         invi_canvas(result_canvas);
         Invoke("ball_origion", 1f); 
 		bCheckResultRun = false;
-        //ball_origion();
+        first_trigger = true;
+        player_script.bIsPlayerInTrigger = false;
 
     }
 
@@ -391,6 +429,10 @@ public class ballController : MonoBehaviour
         move_speed = shoot_speed;
         to_index = -1;
     }
+
+	public bool GetStartCount(){
+		return start_count;
+	}
 
     
 

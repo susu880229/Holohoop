@@ -93,12 +93,18 @@ public class SpeechManager : MonoBehaviour
             Debug.Log("Lower Down");
 
         });
-        keywords.Add("Visual Aid", () =>
+        keywords.Add("Guide", () =>
         {
             this.BroadcastMessage("OnVisualAid");
             Debug.Log("Visual Aid");
 
         });
+		keywords.Add("Repeat", () =>
+		{
+			this.BroadcastMessage("OnRepeat");
+			Debug.Log("Guidance Message Repeat");
+
+		});
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
@@ -112,6 +118,9 @@ public class SpeechManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.E))
 		{
 			this.BroadcastMessage("OnRestart");
+		}
+		if(Input.GetKeyDown(KeyCode.G)){
+			this.BroadcastMessage("OnRepeat");
 		}
 		if (Input.GetKeyDown(KeyCode.S))
         {
