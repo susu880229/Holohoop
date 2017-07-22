@@ -99,15 +99,15 @@
     <Compile Include="Assets\Scripts\SimpleTagalong.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\SpeechManager.cs" />
+    <Compile Include="Assets\Scripts\TriggerRotate.cs" />
+    <Compile Include="Assets\Scripts\TriggerSin.cs" />
     <Compile Include="Assets\Scripts\UIcontroller.cs" />
+    <Compile Include="Assets\Scripts\VisualAid.cs" />
     <Compile Include="Assets\Scripts\World_Cursor.cs" />
     <Compile Include="Assets\Scripts\ballController.cs" />
     <Compile Include="Assets\Scripts\halfcourtController.cs" />
     <Compile Include="Assets\Scripts\playerController.cs" />
     <Compile Include="Assets\Scripts\startController.cs" />
-    <Compile Include="Assets\TriggerRotate.cs" />
-    <Compile Include="Assets\TriggerSin.cs" />
-    <Compile Include="Assets\VisualAid.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\DebugNormals.shader" />
