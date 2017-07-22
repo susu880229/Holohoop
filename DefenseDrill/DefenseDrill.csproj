@@ -88,6 +88,7 @@
     <Compile Include="Assets\Holograms\Support\Underworld\UnderworldReset.cs" />
     <Compile Include="Assets\Holograms\Support\Underworld\UnderworldSound.cs" />
     <Compile Include="Assets\Scripts\AdjustHeight.cs" />
+    <Compile Include="Assets\Scripts\BallColor.cs" />
     <Compile Include="Assets\Scripts\Billboard.cs" />
     <Compile Include="Assets\Scripts\CursorManager.cs" />
     <Compile Include="Assets\Scripts\DirectionIndicator.cs" />

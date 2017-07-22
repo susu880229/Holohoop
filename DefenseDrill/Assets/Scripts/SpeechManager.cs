@@ -105,6 +105,12 @@ public class SpeechManager : MonoBehaviour
 			Debug.Log("Guidance Message Repeat");
 
 		});
+        keywords.Add("Ball Color", () =>
+        {
+            this.BroadcastMessage("OnBallColor");
+            Debug.Log("Ball Color changes");
+
+        });
         // Tell the KeywordRecognizer about our keywords.
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
 
@@ -148,6 +154,11 @@ public class SpeechManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Minus))
         {
             this.BroadcastMessage("OnLowerDown");
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            this.BroadcastMessage("OnBallColor");
         }
     }
 
