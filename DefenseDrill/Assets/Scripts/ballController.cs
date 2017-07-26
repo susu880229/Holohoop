@@ -30,6 +30,7 @@ public class ballController : MonoBehaviour
     public float delay_time = 3f;
     public float shoot_speed = 6f;
     public float pass_speed = 1f;
+	public float ball_speed=0.6f;
     public bool pass;
 
     //start timer varibles
@@ -109,6 +110,8 @@ public class ballController : MonoBehaviour
         Physics.IgnoreLayerCollision(0, 8);
 		allSounds = GetComponents<AudioSource> ();
 		bCheckResultRun = false;
+		//ignore the old rim collider for the ball to be rest in the rim when shot 
+		rim.GetComponent<Collider> ().isTrigger = true;
 
         //SUCCESS = Resources.Load<Sprite>("Resources/UIElements/UI_Checkmark.png") as Sprite;
         //FAIL = Resources.Load<Sprite>("Resources/UIElement/UI_X.png") as Sprite;
@@ -159,7 +162,15 @@ public class ballController : MonoBehaviour
         
         if(StartPlay)
         {
-            transform.position = Vector3.MoveTowards(transform.position, to, move_speed * Time.deltaTime);
+			// if the to position ! = the previous to position, then call Launch Once
+			if (to != from) {
+				if (to == rim.transform.position) {
+					Launch (transform.position, to, 30f);
+				} else {
+					Launch (transform.position, to, 12f);
+				}
+			}
+
 			checkResult();
         }
 		//Tell the player how much time is left
@@ -179,7 +190,27 @@ public class ballController : MonoBehaviour
 		//Debug.Log (Mathf.Floor(play_time));
     }
 
+	//projectile motion launch
+	void Launch(Vector3 curPos, Vector3 toPos, float fangle){
+		//Physics.IgnoreCollision (GetComponent<Collider> (), player_script.GetComponent<Collider> ());
+		//distance between current player position and the target position
+		float fdist = Vector3.Distance(curPos,toPos);
+		transform.LookAt (toPos);
+		//calculate initial velocity for ball to land on the next player
+		float Vinitial = Mathf.Sqrt(fdist * -Physics.gravity.y / (Mathf.Sin(Mathf.Deg2Rad * fangle * 2)));
+		//Vy and Vz component of initial velocity
+		float Vy = Vinitial * Mathf.Sin(Mathf.Deg2Rad * fangle);
+		float Vz = Vinitial * Mathf.Cos(Mathf.Deg2Rad * fangle);
 
+		//local space velocity
+		Vector3 localV = new Vector3(0f,Vy,Vz);
+		//global velocity vector (0.7f is hard coded so this disalbes the user from chagnign ball speed to sync with animation)
+		Vector3 globalV = transform.TransformDirection(0.7f*localV);
+		//launch the ball to set initial velocity
+		GetComponent<Rigidbody>().isKinematic = false;
+		GetComponent<Rigidbody>().useGravity = true;
+		GetComponent<Rigidbody>().velocity = globalV;
+	}
 
     void ball_origion()
     {
@@ -270,9 +301,11 @@ public class ballController : MonoBehaviour
 
     IEnumerator OnTriggerEnter(Collider other)
     {
+		//"catch" the ball by turning gravity on
+		GetComponent<Rigidbody>().isKinematic = true;
+		GetComponent<Rigidbody>().useGravity = false;
         //wait for the start time to redetect the trigger collider
-
-
+	
         if (other.gameObject.name == "opp" + to_index)
         {
             
@@ -357,14 +390,14 @@ public class ballController : MonoBehaviour
 
     void OnSpeedUp()
     {
-        this.pass_speed += 0.25f;
-        Debug.Log("Pass speed changed up " + this.pass_speed);
+        this.ball_speed += 0.1f;
+		Debug.Log("Pass speed changed up " + this.ball_speed);
     }
 
     void OnSlowDown()
     {
-        this.pass_speed -= 0.25f;
-        Debug.Log("Pass speed changed down " + this.pass_speed);
+		this.ball_speed -= 0.1f;
+		Debug.Log("Pass speed changed down " + this.ball_speed);
     }
 
     void OnRestart()

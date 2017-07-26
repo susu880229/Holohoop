@@ -145,6 +145,10 @@ public class SpeechManager : MonoBehaviour
         {
             this.BroadcastMessage("OnSpeedUp");
         }
+		if (Input.GetKeyDown(KeyCode.DownArrow))
+		{
+			this.BroadcastMessage("OnSlowDown");
+		}
 
         if (Input.GetKeyDown(KeyCode.Equals))
         {
@@ -160,6 +164,11 @@ public class SpeechManager : MonoBehaviour
         {
             this.BroadcastMessage("OnBallColor");
         }
+
+		if (Input.GetKeyDown(KeyCode.U))
+		{
+			this.BroadcastMessage("OnVisualAid");
+		}
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
