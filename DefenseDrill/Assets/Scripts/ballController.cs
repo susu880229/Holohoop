@@ -118,7 +118,7 @@ public class ballController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(startTimer);
+        Debug.Log("ball:" + Anim[1].GetBool("ball").ToString() + "pass:" + Anim[1].GetBool("pass").ToString() + "left:" + Anim[1].GetBool("pass_left").ToString() + "short:" + Anim[1].GetBool("short").ToString());
 
         if (play_count && StartPlay)
         {
@@ -151,6 +151,7 @@ public class ballController : MonoBehaviour
                 StartPlay = true; // start the game
                 start_count = false;
                 invi_canvas(start_canvas); //make the ui invisible
+
             }
 
         }
@@ -190,7 +191,7 @@ public class ballController : MonoBehaviour
         transform.position = from;
         to_index = from_index;
         to = from;
-        
+        Anim[to_index].SetBool("ball", true);
     }
 
    
@@ -211,38 +212,54 @@ public class ballController : MonoBehaviour
             to_index = target;
             to = opp_positions[to_index];
 
+            
+            //pass to the left and receive from right
             if (from_index > to_index)
             {
+                
+                Anim[to_index].SetBool("receive_r", true);
+
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
-                    Anim[from_index].SetBool("passLeftLong", true);
+                    Anim[from_index].SetBool("long_p_l", true);
+                    
                 }
                 else
                 {
-                    Anim[from_index].SetBool("passLeft", true);
+                    Anim[from_index].SetBool("short_p_l", true);
+                    
                 }
             }
+
+            //pass to the right and receive from left
             if (from_index < to_index)
             {
+                //set the animation to pass and receive
+                
+                Anim[to_index].SetBool("receive_l", true);
+
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
-                    Anim[from_index].SetBool("passRightLong", true);
+                    Anim[from_index].SetBool("long_p_r", true);
+                   
                 }
                 else
                 {
-                    Anim[from_index].SetBool("passRight", true);
+                    Anim[from_index].SetBool("short_p_r", true);
+                    
                 }
             }
 
-
+            
 
         }
         //fail to be in trigger area within certain amount of time, then shoot
         else
         {
             shooting();
+            Anim[from_index].SetBool("shoot", true);
         }
-        //pass = false;
+        
 
     }
 
@@ -258,23 +275,22 @@ public class ballController : MonoBehaviour
 
         if (other.gameObject.name == "opp" + to_index)
         {
-            Anim[from_index].SetBool("passLeft", false);
-            Anim[from_index].SetBool("passRight", false);
-            Anim[from_index].SetBool("passLeftLong", false);
-            Anim[from_index].SetBool("passRightLong", false);
+            
+            //test animation logic to reset condition
+            reset_anim();
 
             from_index = to_index;
             from = opp_positions[from_index];
             transform.position = to;
-            //wait while the start count down for moving at the beginning 
 
-            
+            //wait while the start count down for moving at the beginning 
             if (!StartPlay)
             {
                 //yield until user start to play
                 yield return new WaitUntil(() => StartPlay == true);
                 
             }
+
             //make sure there is no delay at the first defense trigger zone
             if(first_trigger)
             {
@@ -300,6 +316,10 @@ public class ballController : MonoBehaviour
         {
 
             pass = false;
+            //reset from player receive status 
+            Anim[from_index].SetBool("receive_l", false);
+            Anim[from_index].SetBool("receive_r", false);
+
         }
     }
 
@@ -307,11 +327,15 @@ public class ballController : MonoBehaviour
 
     void OnStart()
     {
-        //StartPlay = true;
-        //Debug.Log("Start Received " + StartPlay);
+        
 		if(player_script.getIsPlayerInTrigger()){
 			start_count = true;
-			allSounds[0].Play ();
+            //start to play the animation 
+            foreach (Animator anim in Anim)
+            {
+                anim.SetBool("start", true);
+            }
+            allSounds[0].Play ();
 		}
 		player_script.walkThruClips [0].Stop();
 		player_script.setExitWalkThru (true);
@@ -415,13 +439,48 @@ public class ballController : MonoBehaviour
         start_timerUI.GetComponent<Text>().fontSize = 12;
         start_timerUI.GetComponent<Text>().text = "START"; //note the order of this line of code has to be afte visulize the timer_ui 
         invi_canvas(result_canvas);
+        restart_anim();
         Invoke("ball_origion", 1f); 
 		bCheckResultRun = false;
         first_trigger = true;
         player_script.bIsPlayerInTrigger = false;
+        
 
     }
 
+    //excecute once when restart , need to test 
+    void restart_anim()
+    {
+        //restart animation
+        foreach (Animator anim in Anim)
+        {
+            if (!anim.isInitialized)
+            {
+                anim.Rebind();
+            }
+
+        }
+    }
+    
+    //excecute every time ball is within the trigger area
+    void reset_anim()
+    {
+        
+        //reset from player
+        //Anim[from_index].SetBool("ball", false);
+        Anim[from_index].SetBool("short_p_l", false);
+        Anim[from_index].SetBool("long_p_l", false);
+        Anim[from_index].SetBool("short_p_r", false);
+        Anim[from_index].SetBool("long_p_r", false);
+        Anim[from_index].SetBool("shoot", false);
+
+        //reset to player
+        //Anim[to_index].SetBool("ball", true);
+        
+        
+
+        
+    }
     void shooting()
     {
 
