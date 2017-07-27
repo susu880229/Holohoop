@@ -121,8 +121,9 @@ public class ballController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("ball:" + Anim[1].GetBool("ball").ToString() + "pass:" + Anim[1].GetBool("pass").ToString() + "left:" + Anim[1].GetBool("pass_left").ToString() + "short:" + Anim[1].GetBool("short").ToString());
-
+        //Debug.Log("ball:" + Anim[1].GetBool("ball").ToString() + "pass:" + Anim[1].GetBool("pass").ToString() + "left:" + Anim[1].GetBool("pass_left").ToString() + "short:" + Anim[1].GetBool("short").ToString());
+        //Debug.Log("near" + Anim[to_index].)
+        
         if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
@@ -163,15 +164,29 @@ public class ballController : MonoBehaviour
         if(StartPlay)
         {
 			// if the to position ! = the previous to position, then call Launch Once
-			if (to != from) {
-				if (to == rim.transform.position) {
+			if (to != from)
+            {
+				if (to == rim.transform.position)
+                {
 					Launch (transform.position, to, 30f);
-				} else {
-					Launch (transform.position, to, 12f);
 				}
-			}
+                else
+                {
+					Launch (transform.position, to, 12f);
 
-			checkResult();
+                }
+			}
+            //when ball reaching the target player within 3 then receive the ball
+            
+            if(to_index >= 0)
+            {
+                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 2f)
+                {
+                    Anim[to_index].SetTrigger("near");
+                }
+            }
+            
+            checkResult();
         }
 		//Tell the player how much time is left
 		if(Mathf.Floor(play_time) == (success_time- 40f)){
@@ -248,17 +263,18 @@ public class ballController : MonoBehaviour
             if (from_index > to_index)
             {
                 
-                Anim[to_index].SetBool("receive_r", true);
+                
+                Anim[to_index].SetTrigger("receive_r_0");
 
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
-                    Anim[from_index].SetBool("long_p_l", true);
-                    //Anim[to_index].SetBool("long_r_r", true);
+                    
+                    Anim[from_index].SetTrigger("long_p_l_0");
                 }
                 else
                 {
-                    Anim[from_index].SetBool("short_p_l", true);
-                    //Anim[to_index].SetBool("short_r_r", true);
+                    
+                    Anim[from_index].SetTrigger("short_p_l_0");
                 }
             }
 
@@ -267,17 +283,18 @@ public class ballController : MonoBehaviour
             {
                 //set the animation to pass and receive
                 
-                Anim[to_index].SetBool("receive_l", true);
+                
+                Anim[to_index].SetTrigger("receive_l_0");
 
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
-                    Anim[from_index].SetBool("long_p_r", true);
-                    //Anim[to_index].SetBool("long_r_l", true);
+                    
+                    Anim[from_index].SetTrigger("long_p_r_0");
                 }
                 else
                 {
-                    Anim[from_index].SetBool("short_p_r", true);
-                    //Anim[to_index].SetBool("short_r_l", true);
+                    
+                    Anim[from_index].SetTrigger("short_p_r_0");
 
                 }
             }
@@ -289,7 +306,7 @@ public class ballController : MonoBehaviour
         else
         {
             shooting();
-            Anim[from_index].SetBool("shoot", true);
+            Anim[from_index].SetTrigger("shoot_0");
         }
         
 
@@ -311,7 +328,7 @@ public class ballController : MonoBehaviour
         {
             
             //test animation logic to reset condition
-            reset_anim();
+            //reset_anim();
 
             from_index = to_index;
             from = opp_positions[from_index];
@@ -350,10 +367,7 @@ public class ballController : MonoBehaviour
         {
 
             pass = false;
-            //reset from player receive status 
-            Anim[from_index].SetBool("receive_l", false);
-            Anim[from_index].SetBool("receive_r", false);
-            
+ 
 
         }
     }
