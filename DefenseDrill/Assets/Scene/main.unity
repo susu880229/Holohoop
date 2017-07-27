@@ -194,8 +194,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 43213034}
-  m_LocalRotation: {x: -0, y: 0.018121034, z: -0, w: -0.99983585}
-  m_LocalPosition: {x: -3.24, y: 1.67, z: 8.59}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.97, y: 2, z: 8.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 560519242}
@@ -203,7 +203,7 @@ Transform:
   - {fileID: 1514086970}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -180, y: 177.923, z: 180}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &43213040
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1127,7 +1127,7 @@ Prefab:
     - target: {fileID: 114414174023020762, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e,
         type: 2}
       propertyPath: pass_speed
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114414174023020762, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e,
         type: 2}
@@ -2646,6 +2646,7 @@ MonoBehaviour:
   delay_time: 3
   shoot_speed: 3
   pass_speed: 4
+  ball_speed: 0.6
   pass: 0
   startTimer: 4
   start_count: 0

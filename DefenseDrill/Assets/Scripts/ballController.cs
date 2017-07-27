@@ -253,12 +253,12 @@ public class ballController : MonoBehaviour
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
                     Anim[from_index].SetBool("long_p_l", true);
-                    
+                    //Anim[to_index].SetBool("long_r_r", true);
                 }
                 else
                 {
                     Anim[from_index].SetBool("short_p_l", true);
-                    
+                    //Anim[to_index].SetBool("short_r_r", true);
                 }
             }
 
@@ -272,12 +272,13 @@ public class ballController : MonoBehaviour
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
                     Anim[from_index].SetBool("long_p_r", true);
-                   
+                    //Anim[to_index].SetBool("long_r_l", true);
                 }
                 else
                 {
                     Anim[from_index].SetBool("short_p_r", true);
-                    
+                    //Anim[to_index].SetBool("short_r_l", true);
+
                 }
             }
 
@@ -352,6 +353,7 @@ public class ballController : MonoBehaviour
             //reset from player receive status 
             Anim[from_index].SetBool("receive_l", false);
             Anim[from_index].SetBool("receive_r", false);
+            
 
         }
     }
@@ -485,14 +487,13 @@ public class ballController : MonoBehaviour
     void restart_anim()
     {
         //restart animation
+        
         foreach (Animator anim in Anim)
         {
-            if (!anim.isInitialized)
-            {
-                anim.Rebind();
-            }
+            anim.SetTrigger("restart");
 
         }
+        
     }
     
     //excecute every time ball is within the trigger area

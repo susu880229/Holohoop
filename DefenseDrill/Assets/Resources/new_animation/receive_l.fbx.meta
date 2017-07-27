@@ -177,7 +177,7 @@ ModelImporter:
     - serializedVersion: 16
       name: receive_l
       takeName: Receive_ball_from_left_002
-      firstFrame: 849
+      firstFrame: 948
       lastFrame: 1025
       wrapMode: 0
       orientationOffsetY: 0
