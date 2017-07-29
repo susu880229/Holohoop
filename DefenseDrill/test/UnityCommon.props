@@ -1,0 +1,9 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <UnityWSASolutionName>mechanic_test</UnityWSASolutionName>
+        <UnityWSASolutionDir>C:\Users\susu880229\Documents\fingerfoodholo\DefenseDrill\test\</UnityWSASolutionDir>
+        <UnityProjectDir>C:\Users\susu880229\Documents\fingerfoodholo\DefenseDrill\</UnityProjectDir>
+        <UnityWSAPlayerDir>C:\Program Files\Unity\Editor\Data\PlaybackEngines\MetroSupport\</UnityWSAPlayerDir>
+        <UnityWSAToolsDir>$(UnityWSASolutionDir)Unity\Tools\</UnityWSAToolsDir>
+    </PropertyGroup>
+</Project>

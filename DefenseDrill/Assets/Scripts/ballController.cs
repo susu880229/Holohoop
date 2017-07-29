@@ -180,7 +180,7 @@ public class ballController : MonoBehaviour
             
             if(to_index >= 0)
             {
-                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 2f)
+                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6f)
                 {
                     Anim[to_index].SetTrigger("near");
                 }
@@ -327,8 +327,6 @@ public class ballController : MonoBehaviour
         if (other.gameObject.name == "opp" + to_index)
         {
             
-            //test animation logic to reset condition
-            //reset_anim();
 
             from_index = to_index;
             from = opp_positions[from_index];
@@ -510,25 +508,7 @@ public class ballController : MonoBehaviour
         
     }
     
-    //excecute every time ball is within the trigger area
-    void reset_anim()
-    {
-        
-        //reset from player
-        //Anim[from_index].SetBool("ball", false);
-        Anim[from_index].SetBool("short_p_l", false);
-        Anim[from_index].SetBool("long_p_l", false);
-        Anim[from_index].SetBool("short_p_r", false);
-        Anim[from_index].SetBool("long_p_r", false);
-        Anim[from_index].SetBool("shoot", false);
-
-        //reset to player
-        //Anim[to_index].SetBool("ball", true);
-        
-        
-
-        
-    }
+    
     void shooting()
     {
 
