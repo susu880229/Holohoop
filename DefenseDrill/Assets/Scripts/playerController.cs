@@ -36,9 +36,9 @@ public class playerController : MonoBehaviour
         zone_blue = new Color32(75, 139, 148, 96);
         pre = -2;
         cur = -1;
-		player0 = GameObject.Find("/Basketball Court/halfcourt/player0/player0mat");
-		player1 = GameObject.Find("/Basketball Court/halfcourt/player1/player1mat");
-		player2 = GameObject.Find("/Basketball Court/halfcourt/player2/player2mat");
+		player0 = GameObject.Find("/Basketball Court/halfcourt/player0/polySurface17");
+		player1 = GameObject.Find("/Basketball Court/halfcourt/player1/polySurface17");
+		player2 = GameObject.Find("/Basketball Court/halfcourt/player2/polySurface17");
         TriggerPointer = GameObject.Find("/Basketball Court/TriggerPointer/default");   
         TriggerRenderer = TriggerPointer.GetComponent<Renderer>();
 		bIsPlayerInTrigger = false;
