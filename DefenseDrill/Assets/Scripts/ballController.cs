@@ -182,7 +182,7 @@ public class ballController : MonoBehaviour
             
             if(to_index >= 0)
             {
-                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6f)
+                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6.2f)
                 {
                     Anim[to_index].SetTrigger("near");
                 }
