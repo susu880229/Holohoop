@@ -1163,6 +1163,21 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 6ebada6baf96fbf488f18464ff235c44,
         type: 3}
+    - target: {fileID: 114414174023020762, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e,
+        type: 2}
+      propertyPath: ball_speed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114414174023020762, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e,
+        type: 2}
+      propertyPath: pass
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114414174023020762, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e,
+        type: 2}
+      propertyPath: delay_time
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 87ff7cd6ab1699e4689eaa2f32d4b36e, type: 2}
   m_IsPrefabParent: 0
