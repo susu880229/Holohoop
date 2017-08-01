@@ -51,6 +51,7 @@ public class ballController : MonoBehaviour
     private Animator[] Anim;
 	AudioSource[] allSounds;
 	bool bCheckResultRun;
+    //bool checkTriggerSet;
     bool first_trigger;
 
     public Sprite SUCCESS, FAIL;
@@ -110,6 +111,7 @@ public class ballController : MonoBehaviour
         Physics.IgnoreLayerCollision(0, 8);
 		allSounds = GetComponents<AudioSource> ();
 		bCheckResultRun = false;
+        //checkTriggerSet = false;
 		//ignore the old rim collider for the ball to be rest in the rim when shot 
 		rim.GetComponent<Collider> ().isTrigger = true;
 
@@ -123,7 +125,7 @@ public class ballController : MonoBehaviour
     {
         //Debug.Log("ball:" + Anim[1].GetBool("ball").ToString() + "pass:" + Anim[1].GetBool("pass").ToString() + "left:" + Anim[1].GetBool("pass_left").ToString() + "short:" + Anim[1].GetBool("short").ToString());
         //Debug.Log("near" + Anim[to_index].)
-        
+        Debug.Log("fail" + Anim[1].GetBool("fail").ToString());
         if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
@@ -180,7 +182,7 @@ public class ballController : MonoBehaviour
             
             if(to_index >= 0)
             {
-                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 2f)
+                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6f)
                 {
                     Anim[to_index].SetTrigger("near");
                 }
@@ -238,6 +240,7 @@ public class ballController : MonoBehaviour
         to_index = from_index;
         to = from;
         Anim[to_index].SetBool("ball", true);
+        
     }
 
    
@@ -307,6 +310,7 @@ public class ballController : MonoBehaviour
         {
             shooting();
             Anim[from_index].SetTrigger("shoot_0");
+            
         }
         
 
@@ -327,8 +331,6 @@ public class ballController : MonoBehaviour
         if (other.gameObject.name == "opp" + to_index)
         {
             
-            //test animation logic to reset condition
-            //reset_anim();
 
             from_index = to_index;
             from = opp_positions[from_index];
@@ -382,7 +384,8 @@ public class ballController : MonoBehaviour
             //start to play the animation 
             foreach (Animator anim in Anim)
             {
-                anim.SetBool("start", true);
+                //anim.SetBool("start", true);
+                anim.SetTrigger("start_0");
             }
             allSounds[0].Play ();
 		}
@@ -455,6 +458,17 @@ public class ballController : MonoBehaviour
 				bCheckResultRun = true;
 			}
             play_count = false;
+            
+            //trigger the success animation
+            foreach (Animator anim in Anim)
+            {
+                //anim.SetTrigger("success");
+                CancelInvoke("ball_target");
+                anim.SetBool("success", true);
+                
+            }
+            
+
         }
         else if (play_time <= success_time && to_index == -1)
         {
@@ -466,6 +480,16 @@ public class ballController : MonoBehaviour
 				bCheckResultRun = true;
 			}
             play_count = false;
+
+            //trigger the fail animation
+            foreach (Animator anim in Anim)
+            {
+                //anim.SetTrigger("fail");
+                CancelInvoke("ball_target");
+                anim.SetBool("fail", true);
+                
+            }
+
         }
     }
     //modify!
@@ -491,6 +515,7 @@ public class ballController : MonoBehaviour
         restart_anim();
         Invoke("ball_origion", 1f); 
 		bCheckResultRun = false;
+        //checkTriggerSet = false;
         first_trigger = true;
         player_script.bIsPlayerInTrigger = false;
         
@@ -505,30 +530,13 @@ public class ballController : MonoBehaviour
         foreach (Animator anim in Anim)
         {
             anim.SetTrigger("restart");
-
+            anim.SetBool("success", false);
+            anim.SetBool("fail", false);
         }
         
     }
     
-    //excecute every time ball is within the trigger area
-    void reset_anim()
-    {
-        
-        //reset from player
-        //Anim[from_index].SetBool("ball", false);
-        Anim[from_index].SetBool("short_p_l", false);
-        Anim[from_index].SetBool("long_p_l", false);
-        Anim[from_index].SetBool("short_p_r", false);
-        Anim[from_index].SetBool("long_p_r", false);
-        Anim[from_index].SetBool("shoot", false);
-
-        //reset to player
-        //Anim[to_index].SetBool("ball", true);
-        
-        
-
-        
-    }
+    
     void shooting()
     {
 
