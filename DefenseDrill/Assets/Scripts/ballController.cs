@@ -549,6 +549,12 @@ public class ballController : MonoBehaviour
 		return start_count;
 	}
 
+	public void SetOppPositions(){
+		opp_positions[0] = opp0.transform.position;
+		opp_positions[1] = opp1.transform.position;
+		opp_positions[2] = opp2.transform.position;
+	}
+
     
 
 }
