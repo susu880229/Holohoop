@@ -14,6 +14,7 @@ public class ballController : MonoBehaviour
     GameObject player1;
     GameObject player2;
     GameObject zone;
+    GameObject anim_ball;
     public GameObject rim;
     GameObject player;
     GameObject start_timerUI;
@@ -51,7 +52,6 @@ public class ballController : MonoBehaviour
     private Animator[] Anim;
 	AudioSource[] allSounds;
 	bool bCheckResultRun;
-    //bool checkTriggerSet;
     bool first_trigger;
 
     public Sprite SUCCESS, FAIL;
@@ -79,6 +79,7 @@ public class ballController : MonoBehaviour
         player1 = GameObject.Find("/Basketball Court/halfcourt/player1");
         player2 = GameObject.Find("/Basketball Court/halfcourt/player2");
         player = GameObject.Find("/Main Camera");
+        anim_ball = GameObject.Find("/Basketball Court/halfcourt/player1/BASKET BALL");
 
         player_script = player.GetComponent<playerController>();
 
@@ -106,12 +107,10 @@ public class ballController : MonoBehaviour
         opp_positions[2] = opp2.transform.position;
         //initiate ball position randomly among the three places
         ball_origion();
-        
         //ignore collision between default layer and zone layer
         Physics.IgnoreLayerCollision(0, 8);
 		allSounds = GetComponents<AudioSource> ();
 		bCheckResultRun = false;
-        //checkTriggerSet = false;
 		//ignore the old rim collider for the ball to be rest in the rim when shot 
 		rim.GetComponent<Collider> ().isTrigger = true;
 
@@ -123,9 +122,8 @@ public class ballController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("ball:" + Anim[1].GetBool("ball").ToString() + "pass:" + Anim[1].GetBool("pass").ToString() + "left:" + Anim[1].GetBool("pass_left").ToString() + "short:" + Anim[1].GetBool("short").ToString());
-        //Debug.Log("near" + Anim[to_index].)
-        Debug.Log("fail" + Anim[1].GetBool("fail").ToString());
+        Debug.Log("to_index" + to_index);
+        Debug.Log("first_trigger" + first_trigger);
         if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
@@ -157,7 +155,7 @@ public class ballController : MonoBehaviour
                 StartPlay = true; // start the game
                 start_count = false;
                 invi_canvas(start_canvas); //make the ui invisible
-
+                //GetComponent<MeshRenderer>().enabled = true;
             }
 
         }
@@ -182,7 +180,7 @@ public class ballController : MonoBehaviour
             
             if(to_index >= 0)
             {
-                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6.2f)
+                if (Mathf.Abs(Vector3.Distance(transform.position, opp_positions[to_index])) <= 6.75f)
                 {
                     Anim[to_index].SetTrigger("near");
                 }
@@ -190,23 +188,47 @@ public class ballController : MonoBehaviour
             
             checkResult();
         }
-		//Tell the player how much time is left
-		if(Mathf.Floor(play_time) == (success_time- 40f)){
-			allSounds [6].Play ();
-		}
-		if(Mathf.Floor(play_time) == (success_time- 30f)){
-			allSounds [5].Play ();
-		}
-		if(Mathf.Floor(play_time) == (success_time- 20f)){
-			allSounds [4].Play ();
-		}
-		if(Mathf.Floor(play_time) == (success_time- 10f)){
-			allSounds [3].Play ();
-		}
 
+        if(to_index != -1)
+        {
+            count_down();
+        }
+        else
+        {
+            stop_countdown();
+        }
 		//Debug.Log (Mathf.Floor(play_time));
     }
 
+    void count_down()
+    {
+        //Tell the player how much time is left
+        if (Mathf.Floor(play_time) == (success_time - 40f))
+        {
+            allSounds[6].Play();
+        }
+        if (Mathf.Floor(play_time) == (success_time - 30f))
+        {
+            allSounds[5].Play();
+        }
+        if (Mathf.Floor(play_time) == (success_time - 20f))
+        {
+            allSounds[4].Play();
+        }
+        if (Mathf.Floor(play_time) == (success_time - 10f))
+        {
+            allSounds[3].Play();
+        }
+
+    }
+
+    void stop_countdown()
+    {
+        allSounds[6].Stop();
+        allSounds[5].Stop();
+        allSounds[4].Stop();
+        allSounds[3].Stop();
+    }
 	//projectile motion launch
 	void Launch(Vector3 curPos, Vector3 toPos, float fangle){
 		//Physics.IgnoreCollision (GetComponent<Collider> (), player_script.GetComponent<Collider> ());
@@ -240,7 +262,8 @@ public class ballController : MonoBehaviour
         to_index = from_index;
         to = from;
         Anim[to_index].SetBool("ball", true);
-        
+        //make the ball invisible before start to play the animation
+        GetComponent<MeshRenderer>().enabled = false; 
     }
 
    
@@ -267,17 +290,17 @@ public class ballController : MonoBehaviour
             {
                 
                 
-                Anim[to_index].SetTrigger("receive_r_0");
+                Anim[to_index].SetTrigger("receive_r");
 
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
                     
-                    Anim[from_index].SetTrigger("long_p_l_0");
+                    Anim[from_index].SetTrigger("long_p_l");
                 }
                 else
                 {
                     
-                    Anim[from_index].SetTrigger("short_p_l_0");
+                    Anim[from_index].SetTrigger("short_p_l");
                 }
             }
 
@@ -287,17 +310,17 @@ public class ballController : MonoBehaviour
                 //set the animation to pass and receive
                 
                 
-                Anim[to_index].SetTrigger("receive_l_0");
+                Anim[to_index].SetTrigger("receive_l");
 
                 if (Mathf.Abs(from_index - to_index) > 1f)
                 {
                     
-                    Anim[from_index].SetTrigger("long_p_r_0");
+                    Anim[from_index].SetTrigger("long_p_r");
                 }
                 else
                 {
                     
-                    Anim[from_index].SetTrigger("short_p_r_0");
+                    Anim[from_index].SetTrigger("short_p_r");
 
                 }
             }
@@ -309,7 +332,7 @@ public class ballController : MonoBehaviour
         else
         {
             shooting();
-            Anim[from_index].SetTrigger("shoot_0");
+            Anim[from_index].SetTrigger("shoot");
             
         }
         
@@ -347,7 +370,8 @@ public class ballController : MonoBehaviour
             //make sure there is no delay at the first defense trigger zone
             if(first_trigger)
             {
-                ball_target();
+                //ball_target();
+                Invoke("ball_target", 0f);
                 first_trigger = false;
             }
             else
@@ -378,14 +402,18 @@ public class ballController : MonoBehaviour
 
     void OnStart()
     {
-        
-		if(player_script.getIsPlayerInTrigger()){
+       
+        if (player_script.getIsPlayerInTrigger()){
 			start_count = true;
-            //start to play the animation 
+          
+            //turn off anim ball and turn on physics ball
+            GetComponent<MeshRenderer>().enabled = true;
+            anim_ball.GetComponent<MeshRenderer>().enabled = false;
+            //start play the prepare idle anim
             foreach (Animator anim in Anim)
             {
                 //anim.SetBool("start", true);
-                anim.SetTrigger("start_0");
+                anim.SetTrigger("start");
             }
             allSounds[0].Play ();
 		}
@@ -465,7 +493,8 @@ public class ballController : MonoBehaviour
                 //anim.SetTrigger("success");
                 CancelInvoke("ball_target");
                 anim.SetBool("success", true);
-                
+                //move the ball away from  player to applaud
+                reset_ball();
             }
             
 
@@ -480,26 +509,34 @@ public class ballController : MonoBehaviour
 				bCheckResultRun = true;
 			}
             play_count = false;
-
+            //play_time = 0f;
             //trigger the fail animation
             foreach (Animator anim in Anim)
             {
                 //anim.SetTrigger("fail");
                 CancelInvoke("ball_target");
                 anim.SetBool("fail", true);
-                
+                //move the ball away from rim to encourage
+                if(Vector3.Distance(transform.position, rim.transform.position) <= 0.1f)
+                {
+                    reset_ball();
+                }
+                   
             }
 
         }
     }
-    //modify!
+    
     private void Reset()
     {
         //stop looking for next target for ball when it is restarted
         CancelInvoke("ball_target");
-        //reenter the same collider if the position didn't change to trigger the movement
-        to = new Vector3(0, 0, 0);
-        transform.position = to;
+        //move the ball out of trigger zone to be ready to reenter and reactivate the ball_target for the middle player
+        //avoid bugs when the ball repeatedly go out and in the trigger zone to generate several coroutines. 
+        if(StartPlay)
+        {
+            reset_ball();
+        }
         StartPlay = false;
         PausePlay = false;
         RestartPlay = false;
@@ -510,14 +547,18 @@ public class ballController : MonoBehaviour
         startTimer = 4f; //redefine the starttimer after restart
         //visi_canvas(start_canvas);
         start_timerUI.GetComponent<Text>().fontSize = 12;
-        start_timerUI.GetComponent<Text>().text = "START"; //note the order of this line of code has to be afte visulize the timer_ui 
+        start_timerUI.GetComponent<Text>().text = "START"; 
         invi_canvas(result_canvas);
+        //turn on anim ball and turn off physics ball
+        anim_ball.GetComponent<MeshRenderer>().enabled = true;
+        GetComponent<MeshRenderer>().enabled = false;
         restart_anim();
-        Invoke("ball_origion", 1f); 
-		bCheckResultRun = false;
-        //checkTriggerSet = false;
+        bCheckResultRun = false;
         first_trigger = true;
         player_script.bIsPlayerInTrigger = false;
+        Invoke("ball_origion", 0.1f); 
+       
+		
         
 
     }
@@ -532,6 +573,18 @@ public class ballController : MonoBehaviour
             anim.SetTrigger("restart");
             anim.SetBool("success", false);
             anim.SetBool("fail", false);
+            //anim.SetBool("ball", false);
+            anim.ResetTrigger("short_p_l");
+            anim.ResetTrigger("long_p_l");
+            anim.ResetTrigger("short_p_r");
+            anim.ResetTrigger("long_p_r");
+            anim.ResetTrigger("shoot");
+            anim.ResetTrigger("receive_l");
+            anim.ResetTrigger("receive_r");
+            anim.ResetTrigger("near");
+            anim.ResetTrigger("start");
+          
+
         }
         
     }
@@ -545,10 +598,23 @@ public class ballController : MonoBehaviour
         to_index = -1;
     }
 
-	public bool GetStartCount(){
+	public bool GetStartCount()
+    {
 		return start_count;
 	}
 
-    
+    //reset the ball to the original place (zero)
+    public void reset_ball()
+    {
+        to = new Vector3(0, 0, 0);
+        transform.position = to;
+    }
+
+    public void SetOppPositions()
+    {
+        opp_positions[0] = opp0.transform.position;
+        opp_positions[1] = opp1.transform.position;
+        opp_positions[2] = opp2.transform.position;
+    }
 
 }

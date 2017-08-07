@@ -95,12 +95,14 @@
     <Compile Include="Assets\Scripts\GazeGestureManager.cs" />
     <Compile Include="Assets\Scripts\GazeManager.cs" />
     <Compile Include="Assets\Scripts\GazeStabilizer.cs" />
+    <Compile Include="Assets\Scripts\RecevieAnimationController.cs" />
     <Compile Include="Assets\Scripts\ScaleDownPlayers.cs" />
     <Compile Include="Assets\Scripts\SimpleTagalong.cs" />
     <Compile Include="Assets\Scripts\Singleton.cs" />
     <Compile Include="Assets\Scripts\SpeechManager.cs" />
     <Compile Include="Assets\Scripts\TriggerRotate.cs" />
     <Compile Include="Assets\Scripts\TriggerSin.cs" />
+    <Compile Include="Assets\Scripts\UIPosition.cs" />
     <Compile Include="Assets\Scripts\UIcontroller.cs" />
     <Compile Include="Assets\Scripts\VisualAid.cs" />
     <Compile Include="Assets\Scripts\World_Cursor.cs" />

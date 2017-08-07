@@ -45,7 +45,8 @@ public class playerController : MonoBehaviour
 		bExitWalkThru = false;
 		walkThruClips = GetComponents<AudioSource> ();
 		playWalkthrough();
-		    }
+
+    }
 
     // Update is called once per frame
     void Update()
@@ -155,6 +156,7 @@ public class playerController : MonoBehaviour
 		bExitWalkThru = extiWalkThru;
 	}
 
+    //change the clothes mesh part material to change color green
     void player_Green()
     {
         if (ball_script.to_index == 0)

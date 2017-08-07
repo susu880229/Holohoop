@@ -37,11 +37,11 @@ public class RecevieAnimationController : MonoBehaviour {
 			if( relativeDir(this.transform, ball)){
 				//receive right animation
 				Debug.Log("Receive Right Animation");
-				//this.GetComponent<Animator> ().SetTrigger("receive_r_0");
+				//this.GetComponent<Animator> ().SetTrigger("receive_r");
 			}else{
 				//receive left animation
 				Debug.Log("Receive left Animation");
-				//this.GetComponent<Animator> ().SetTrigger("receive_r_0");
+				//this.GetComponent<Animator> ().SetTrigger("receive_r");
 			}
 		}
 	}
