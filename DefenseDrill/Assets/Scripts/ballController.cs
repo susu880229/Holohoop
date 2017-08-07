@@ -603,6 +603,7 @@ public class ballController : MonoBehaviour
 		return start_count;
 	}
 
+
     //reset the ball to the original place (zero)
     public void reset_ball()
     {
@@ -616,5 +617,6 @@ public class ballController : MonoBehaviour
         opp_positions[1] = opp1.transform.position;
         opp_positions[2] = opp2.transform.position;
     }
+
 
 }
