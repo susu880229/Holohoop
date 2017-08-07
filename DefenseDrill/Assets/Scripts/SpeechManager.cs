@@ -2,15 +2,17 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Windows.Speech;
+using UnityEngine.UI;
 
 public class SpeechManager : MonoBehaviour
 {
     KeywordRecognizer keywordRecognizer = null;
     Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
-
+    
     // Use this for initialization
     void Start()
     {
+        
         keywords.Add("Reset world", () =>
         {
             // Call the OnReset method on every descendant object.
@@ -109,6 +111,12 @@ public class SpeechManager : MonoBehaviour
         {
             this.BroadcastMessage("OnBallColor");
             Debug.Log("Ball Color changes");
+
+        });
+        keywords.Add("Menu", () =>
+        {
+            this.BroadcastMessage("OnMenu");
+            Debug.Log("Back to Menu");
 
         });
         // Tell the KeywordRecognizer about our keywords.

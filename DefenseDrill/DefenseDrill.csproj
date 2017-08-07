@@ -95,6 +95,7 @@
     <Compile Include="Assets\Scripts\GazeGestureManager.cs" />
     <Compile Include="Assets\Scripts\GazeManager.cs" />
     <Compile Include="Assets\Scripts\GazeStabilizer.cs" />
+    <Compile Include="Assets\Scripts\LevelControl.cs" />
     <Compile Include="Assets\Scripts\RecevieAnimationController.cs" />
     <Compile Include="Assets\Scripts\ScaleDownPlayers.cs" />
     <Compile Include="Assets\Scripts\SimpleTagalong.cs" />
