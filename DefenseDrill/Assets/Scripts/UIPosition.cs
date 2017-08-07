@@ -10,6 +10,8 @@ public class UIPosition : MonoBehaviour
     public Canvas ResultUI;
     public Canvas TimerUI;
 
+    public float offset;
+
     private RectTransform RectRs;
     private RectTransform RectTm;
 
@@ -23,6 +25,9 @@ public class UIPosition : MonoBehaviour
     private Vector3 initialTmS;
 
     private float shorten;
+    private Vector3 CameraPos;
+
+    public float factor;
 
     // Use this for initialization
     void Start()
@@ -37,8 +42,8 @@ public class UIPosition : MonoBehaviour
         RsScale = RectRs.localScale;
         TmScale = RectTm.localScale;
 
-        initialRsZ = RectRs.localPosition.z;
-        initialTmZ = RectTm.localPosition.z;
+        initialRsZ = RectRs.localPosition.z / factor;
+        initialTmZ = RectTm.localPosition.z / factor;
 
         shorten = 10f;
 
@@ -48,6 +53,8 @@ public class UIPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CameraPos = Camera.main.transform.position;
+        this.transform.position = new Vector3(CameraPos.x, CameraPos.y, CameraPos.z + offset);
         if(shorten < 10f)
         {
             //Debug.Log("local pos " + RectRs.localPosition.z + " limit " + (initialRsZ - shorten));
@@ -76,10 +83,10 @@ public class UIPosition : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Get in the way " + other.gameObject.name);
+        //Debug.Log("Get in the way " + other.gameObject.name);
         if (other.gameObject.name == "triggerui")
         {
-
+        
         Vector3 vectorDis = Camera.main.transform.position - other.gameObject.transform.position;
 
         Vector3 midPt = vectorDis / 2;
