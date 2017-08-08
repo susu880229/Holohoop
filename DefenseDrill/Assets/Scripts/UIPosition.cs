@@ -94,10 +94,10 @@ public class UIPosition : MonoBehaviour
                 RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z + speed * 1f * Time.deltaTime);
 
                 //RectRs.localScale = RectRs.localScale * (10 / 11) * 1f * Time.deltaTime;
-                //RectTm.localScale = RectTm.localScale * (10 / 11) * 1f * Time.deltaTime;
-                RectRs.localScale = new Vector3(RectRs.localScale.x, RectRs.localScale.y, RectRs.localScale.z) * (11f / 10.8f) * 1f;
+                //RectTm.localScale = RectTm.localScale * (10 / 11) * 1f * Time.deltaTime;                                 
                 RectTm.localScale = new Vector3(RectTm.localScale.x, RectTm.localScale.y, RectTm.localScale.z) * (11f / 10.8f) * 1f;
                 RectRt.localScale = new Vector3(RectRt.localScale.x, RectRt.localScale.y, RectRt.localScale.z) * (11f / 10.8f) * 1f;
+                RectRs.localScale = new Vector3(RectRs.localScale.x, RectRs.localScale.y, RectRs.localScale.z) * (11f / 10.8f) * 1f;
 
             }
 
