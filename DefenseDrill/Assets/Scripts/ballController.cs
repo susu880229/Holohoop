@@ -49,12 +49,16 @@ public class ballController : MonoBehaviour
     public bool RestartPlay;
     CanvasGroup start_canvas;
     CanvasGroup result_canvas;
+    CanvasGroup restart_canvas;//new
     private Animator[] Anim;
 	AudioSource[] allSounds;
 	bool bCheckResultRun;
     bool first_trigger;
 
     public Sprite SUCCESS, FAIL;
+
+    private bool switchUI;
+    private int switchUITimer;
     
 
     // Use this for initialization
@@ -70,6 +74,8 @@ public class ballController : MonoBehaviour
         play_count = true;
 
         pass = false;
+        switchUI = false;
+        switchUITimer = 0;
 
         opp0 = GameObject.Find("/Basketball Court/halfcourt/opp0");
         opp1 = GameObject.Find("/Basketball Court/halfcourt/opp1");
@@ -91,6 +97,7 @@ public class ballController : MonoBehaviour
         start_timerUI.GetComponent<Text>().text = "START";
         start_canvas = GameObject.Find("Main Camera/Timer_UI").GetComponent<CanvasGroup>();
         result_canvas = GameObject.Find("Main Camera/Result_UI").GetComponent<CanvasGroup>();
+        restart_canvas = GameObject.Find("Main Camera/Restart_UI").GetComponent<CanvasGroup>();
         //visi_canvas(start_canvas);
         invi_canvas(result_canvas);
 
@@ -122,8 +129,9 @@ public class ballController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("to_index" + to_index);
-        Debug.Log("first_trigger" + first_trigger);
+        Debug.Log("Switch UI " + switchUI);
+        //Debug.Log("to_index" + to_index);
+        //Debug.Log("first_trigger" + first_trigger);
         if (play_count && StartPlay)
         {
             play_time += 1 * Time.deltaTime;
@@ -187,6 +195,23 @@ public class ballController : MonoBehaviour
             }
             
             checkResult();
+        }
+
+        if (switchUI)
+        {
+            Debug.Log(switchUITimer + " switch");
+            switchUITimer += 1;
+            if (switchUITimer >= 300)
+            {
+                invi_canvas(result_canvas);
+                visi_canvas(restart_canvas);
+                switchUI = false;
+            }
+        }
+        if (!switchUI)
+        {
+            switchUITimer = 0;
+            //invi_canvas(restart_canvas);
         }
 
         if(to_index != -1)
@@ -478,7 +503,10 @@ public class ballController : MonoBehaviour
     {	
         if (play_time >= success_time && to_index != -1)
         {
-            visi_canvas(result_canvas);
+            if (restart_canvas.alpha < 1)
+            {
+                visi_canvas(result_canvas);
+            }
             result_UI.GetComponent<Text>().text = "SUCCESS";
             result_UI_image.GetComponent<Image>().sprite = SUCCESS;
 			if (!bCheckResultRun) {
@@ -486,7 +514,9 @@ public class ballController : MonoBehaviour
 				bCheckResultRun = true;
 			}
             play_count = false;
-            
+            switchUI = true;
+            Debug.Log("success " + switchUI);
+
             //trigger the success animation
             foreach (Animator anim in Anim)
             {
@@ -496,12 +526,16 @@ public class ballController : MonoBehaviour
                 //move the ball away from  player to applaud
                 reset_ball();
             }
+
             
 
         }
         else if (play_time <= success_time && to_index == -1)
         {
-            visi_canvas(result_canvas);
+            if (restart_canvas.alpha < 1)
+            {
+                visi_canvas(result_canvas);
+            }
             result_UI.GetComponent<Text>().text = "FAIL";
             result_UI_image.GetComponent<Image>().sprite = FAIL;
             if (!bCheckResultRun) {
@@ -509,6 +543,9 @@ public class ballController : MonoBehaviour
 				bCheckResultRun = true;
 			}
             play_count = false;
+            switchUI = true;
+            Debug.Log("fail " + switchUI);
+
             //play_time = 0f;
             //trigger the fail animation
             foreach (Animator anim in Anim)
@@ -523,7 +560,6 @@ public class ballController : MonoBehaviour
                 }
                    
             }
-
         }
     }
     
@@ -549,6 +585,9 @@ public class ballController : MonoBehaviour
         start_timerUI.GetComponent<Text>().fontSize = 12;
         start_timerUI.GetComponent<Text>().text = "START"; 
         invi_canvas(result_canvas);
+        invi_canvas(restart_canvas);
+        switchUI = false;
+        switchUITimer = 0;
         //turn on anim ball and turn off physics ball
         anim_ball.GetComponent<MeshRenderer>().enabled = true;
         GetComponent<MeshRenderer>().enabled = false;
