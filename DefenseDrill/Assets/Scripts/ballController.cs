@@ -129,7 +129,6 @@ public class ballController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Switch UI " + switchUI);
         //Debug.Log("to_index" + to_index);
         //Debug.Log("first_trigger" + first_trigger);
         if (play_count && StartPlay)

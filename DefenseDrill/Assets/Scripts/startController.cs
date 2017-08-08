@@ -8,7 +8,7 @@ public class startController : MonoBehaviour
     ballController ball_script;
     playerController player_script;
     CanvasGroup canvas;
-    bool receive = false;
+    bool receive = false; 
     
     private void Awake()
     {
