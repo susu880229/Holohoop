@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelControl : MonoBehaviour {
 
@@ -22,7 +23,7 @@ public class LevelControl : MonoBehaviour {
     {
         if(RestartUI.alpha > 0)
         {
-            //Application.loadedLevel();
+            SceneManager.LoadScene(0);
         }
     }
 }

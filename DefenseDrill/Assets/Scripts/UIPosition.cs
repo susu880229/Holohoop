@@ -9,20 +9,25 @@ public class UIPosition : MonoBehaviour
 
     public Canvas ResultUI;
     public Canvas TimerUI;
+    public Canvas RestartUI;
 
     public float offset;
 
     private RectTransform RectRs;
     private RectTransform RectTm;
+    private RectTransform RectRt;
 
     private float initialRsZ;
     private float initialTmZ;
+    private float initialRtZ;
 
     private Vector3 RsScale;
     private Vector3 TmScale;
+    private Vector3 RtScale;
 
     private Vector3 initialRsS;
     private Vector3 initialTmS;
+    private Vector3 initialRtS;
 
     private float shorten;
     private Vector3 CameraPos;
@@ -38,12 +43,14 @@ public class UIPosition : MonoBehaviour
 
         RectRs = ResultUI.GetComponent<RectTransform>();
         RectTm = TimerUI.GetComponent<RectTransform>();
+        RectRt = RestartUI.GetComponent<RectTransform>();
 
         RsScale = RectRs.localScale;
         TmScale = RectTm.localScale;
 
         initialRsZ = RectRs.localPosition.z / factor;
         initialTmZ = RectTm.localPosition.z / factor;
+        initialRtZ = RectRt.localPosition.z / factor;
 
         shorten = 10f;
 
@@ -62,7 +69,7 @@ public class UIPosition : MonoBehaviour
             {
                 RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z - 1f * Time.deltaTime);
                 RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z - 1f * Time.deltaTime);
-
+                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z - 1f * Time.deltaTime);
                 //RectRs.localScale = RectRs.localScale * (11/10) * 1f * Time.deltaTime;
                 //RectTm.localScale = RectTm.localScale * (11 / 10) * 1f * Time.deltaTime;
             }
@@ -74,7 +81,7 @@ public class UIPosition : MonoBehaviour
             {
                 RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z + 1f * Time.deltaTime);
                 RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z + 1f * Time.deltaTime);
-
+                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z + 1f * Time.deltaTime);
                 //RectRs.localScale = RectRs.localScale * (10 / 11) * 1f * Time.deltaTime;
                 //RectTm.localScale = RectTm.localScale * (10 / 11) * 1f * Time.deltaTime;
             }
