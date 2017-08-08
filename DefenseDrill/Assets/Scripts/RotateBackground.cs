@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RotateBackground : MonoBehaviour {
 	Vector3 pivot;
-	float speed = 45.0f;
+	//float speed = 45.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -14,5 +14,5 @@ public class RotateBackground : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		}
+	}
 }

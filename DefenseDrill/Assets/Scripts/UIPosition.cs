@@ -33,6 +33,7 @@ public class UIPosition : MonoBehaviour
     private Vector3 CameraPos;
 
     public float factor;
+    public float speed;
 
     // Use this for initialization
     void Start()
@@ -52,6 +53,10 @@ public class UIPosition : MonoBehaviour
         initialTmZ = RectTm.localPosition.z / factor;
         initialRtZ = RectRt.localPosition.z / factor;
 
+        initialRsS = RectRs.localScale;
+        initialTmS = RectTm.localScale;
+        initialRtS = RectRt.localScale;
+
         shorten = 10f;
 
 
@@ -65,13 +70,18 @@ public class UIPosition : MonoBehaviour
         if(shorten < 10f)
         {
             //Debug.Log("local pos " + RectRs.localPosition.z + " limit " + (initialRsZ - shorten));
-            if (RectRs.localPosition.z >= (initialRsZ - shorten))
+            if (RectRs.localPosition.z >= (initialRsZ - shorten) && RectRs.localPosition.z >= 0.5f)
             {
-                RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z - 1f * Time.deltaTime);
-                RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z - 1f * Time.deltaTime);
-                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z - 1f * Time.deltaTime);
-                //RectRs.localScale = RectRs.localScale * (11/10) * 1f * Time.deltaTime;
-                //RectTm.localScale = RectTm.localScale * (11 / 10) * 1f * Time.deltaTime;
+                RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z - speed * 1f * Time.deltaTime);
+                RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z - speed * 1f * Time.deltaTime);
+                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z - speed * 1f * Time.deltaTime);
+
+                //RectRs.localScale = RectRs.localScale * (11 / 10) * 1f * Time.deltaTime;
+                RectRs.localScale = new Vector3 (RectRs.localScale.x, RectRs.localScale.y, RectRs.localScale.z) * (10.8f / 11f) * 1f;
+                RectTm.localScale = new Vector3(RectTm.localScale.x, RectTm.localScale.y, RectTm.localScale.z) * (10.8f / 11f) * 1f;
+                RectRt.localScale = new Vector3(RectRt.localScale.x, RectRt.localScale.y, RectRt.localScale.z) * (10.8f / 11f) * 1f;
+
+
             }
         }
         if(shorten > 10f)
@@ -79,12 +89,18 @@ public class UIPosition : MonoBehaviour
             //Debug.Log("local pos " + RectRs.localPosition.z  + " initial z " + initialRsZ);
             if (RectRs.localPosition.z <= initialRsZ)
             {
-                RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z + 1f * Time.deltaTime);
-                RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z + 1f * Time.deltaTime);
-                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z + 1f * Time.deltaTime);
+                RectRs.localPosition = new Vector3(RectRs.localPosition.x, RectRs.localPosition.y, RectRs.localPosition.z + speed * 1f * Time.deltaTime);
+                RectTm.localPosition = new Vector3(RectTm.localPosition.x, RectTm.localPosition.y, RectTm.localPosition.z + speed * 1f * Time.deltaTime);
+                RectRt.localPosition = new Vector3(RectRt.localPosition.x, RectRt.localPosition.y, RectRt.localPosition.z + speed * 1f * Time.deltaTime);
+
                 //RectRs.localScale = RectRs.localScale * (10 / 11) * 1f * Time.deltaTime;
                 //RectTm.localScale = RectTm.localScale * (10 / 11) * 1f * Time.deltaTime;
+                RectRs.localScale = new Vector3(RectRs.localScale.x, RectRs.localScale.y, RectRs.localScale.z) * (11f / 10.8f) * 1f;
+                RectTm.localScale = new Vector3(RectTm.localScale.x, RectTm.localScale.y, RectTm.localScale.z) * (11f / 10.8f) * 1f;
+                RectRt.localScale = new Vector3(RectRt.localScale.x, RectRt.localScale.y, RectRt.localScale.z) * (11f / 10.8f) * 1f;
+
             }
+
         }
     }
 
@@ -97,7 +113,7 @@ public class UIPosition : MonoBehaviour
         Vector3 vectorDis = Camera.main.transform.position - other.gameObject.transform.position;
 
         Vector3 midPt = vectorDis / 2;
-        float midPtZ = midPt.z;
+        //float midPtZ = midPt.z;
         float dis = midPt.magnitude;
         shorten = dis / 2;
         //Debug.Log("Shorten " + shorten);
